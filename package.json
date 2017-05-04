@@ -1,0 +1,28 @@
+{
+  "name": "lagen-client",
+  "version": "1.0.0",
+  "description": "Lagen's client interface",
+  "main": "src/index.js",
+  "scripts": {
+    "copy-css": "cp node_modules/knacss/css/knacss.css web/ && cp node_modules/font-awesome/css/font-awesome.min.css web/ && cp node_modules/react-select/dist/react-select.css web/",
+    "setup": "npm run copy-css && cp -R node_modules/font-awesome/fonts web/ && browserify -t [ babelify --presets [ react ] ] src/index.js | uglifyjs > web/app.js && lessc style/index.less | uglifycss > web/app.css"
+  },
+  "author": "Pierre Rolland",
+  "license": "ISC",
+  "dependencies": {
+    "babelify": "^7.3.0",
+    "create-react-class": "^15.5.2",
+    "font-awesome": "^4.7.0",
+    "knacss": "^6.1.0",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
+    "react-select": "^1.0.0-rc.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1"
+  }
+}

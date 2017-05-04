@@ -1,0 +1,59 @@
+@import "menu";
+
+@import "blocks/scenario";
+@import "blocks/step";
+@import "blocks/stepParameterString";
+@import "blocks/stepParameterTable";
+@import "blocks/stepParameterTableCell";
+
+@import "pages/indexPage";
+@import "pages/projectPage";
+
+.page {
+  padding: 20px;
+}
+
+.submitButton {
+  background: #A00;
+  color: white;
+  font-weight: bold;
+  border: 1px solid black;
+  padding: 10px;
+  &:hover {
+    background: #700;
+    cursor: pointer;
+  }
+}
+
+.actions {
+  text-align: right;
+  background: #eee;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+input[type=text], input[type=email], input[type=number], textarea {
+  padding: 10px;
+  width: 100%;
+  background: transparent;
+  border: none;
+}
+
+.checkbox-container {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+
+  label {
+    margin-left: 5px;
+  }
+}
+
+.Select {
+  margin-top: 20px;
+  .Select-control {
+    border-radius: 0;
+    border-color: #AAA;
+    padding: 3px;
+  }
+}
