@@ -13,6 +13,8 @@ export default class StepParameterTable extends React.Component {
         this.handleCellChange = this.handleCellChange.bind(this);
         this.handleColumnAdd = this.handleColumnAdd.bind(this);
         this.handleRowAdd = this.handleRowAdd.bind(this);
+        this.handleColumnDelete = this.handleColumnDelete.bind(this);
+        this.handleRowDelete = this.handleRowDelete.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -40,6 +42,18 @@ export default class StepParameterTable extends React.Component {
         this.props.onChange(parameterValue);
     }
 
+    handleColumnDelete(columnId) {
+        let parameterValue = this.state.parameter.value;
+
+        parameterValue = parameterValue.map(row => {
+            row.splice(columnId, 1);
+
+            return row;
+        });
+
+        this.props.onChange(parameterValue);
+    }
+
     handleRowAdd() {
         let parameterValue = this.state.parameter.value;
         let newRow = [];
@@ -48,6 +62,14 @@ export default class StepParameterTable extends React.Component {
             newRow.push('');
         }
         parameterValue.push(newRow);
+
+        this.props.onChange(parameterValue);
+    }
+
+    handleRowDelete(rowId) {
+        let parameterValue = this.state.parameter.value;
+
+        parameterValue.splice(rowId, 1);
 
         this.props.onChange(parameterValue);
     }
@@ -70,6 +92,8 @@ export default class StepParameterTable extends React.Component {
                                             row={rowId}
                                             column={columnId}
                                             onChange={this.handleCellChange}
+                                            onDeleteColumn={this.handleColumnDelete}
+                                            onDeleteRow={this.handleRowDelete}
                                         />
                                     ))}
                                     {rowId === 0 ? (
