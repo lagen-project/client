@@ -7,16 +7,60 @@ export default class Step extends React.Component {
         super(props);
 
         this.state = {
-            step: this.props.step
+            step: this.props.step,
+            sentenceMode: 'read',
+            typeMode: 'read'
         };
 
         this.handleParameterChange = this.handleParameterChange.bind(this);
+        this.handleSentenceChange = this.handleSentenceChange.bind(this);
+        this.handleTypeChange = this.handleTypeChange.bind(this);
+        this.switchSentenceToRead = this.switchSentenceToRead.bind(this);
+        this.switchSentenceToWrite = this.switchSentenceToWrite.bind(this);
+        this.switchTypeToRead = this.switchTypeToRead.bind(this);
+        this.switchTypeToWrite = this.switchTypeToWrite.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
         if (JSON.stringify(nextProps.step) !== JSON.stringify(this.state.step)) {
             this.setState({ step: nextProps.step });
         }
+    }
+
+    switchSentenceToRead() {
+        this.setState({ sentenceMode: 'read' });
+    }
+
+    switchSentenceToWrite() {
+        this.setState({ sentenceMode: 'write' });
+    }
+
+    switchTypeToRead() {
+        this.setState({ typeMode: 'read' });
+    }
+
+    switchTypeToWrite() {
+        this.setState({ typeMode: 'write' });
+    }
+
+    handleSentenceChange(e) {
+        let step = this.state.step;
+
+        step.sentence = e.target.value;
+        this.props.onChange({
+            step,
+            id: this.props.id
+        });
+    }
+
+    handleTypeChange(e) {
+        let step = this.state.step;
+
+        step.type = e.target.value;
+        this.props.onChange({
+            step,
+            id: this.props.id
+        });
     }
 
     handleParameterChange(newValue) {
@@ -33,8 +77,31 @@ export default class Step extends React.Component {
         return (
             <div className="step">
                 <div className="grid">
-                    <div className="step-type">{this.state.step.type}</div>
-                    <div className="step-sentence">{this.state.step.sentence}</div>
+                    <div className="step-type" onClick={this.switchTypeToWrite} onBlur={this.switchTypeToRead}>
+                        {this.state.typeMode === 'read' ? (
+                            this.state.step.type
+                        ) : (
+                            <select value={this.state.step.type} onChange={this.handleTypeChange}>
+                                <option value='Given'>Given</option>
+                                <option value='When'>When</option>
+                                <option value='Then'>Then</option>
+                                <option value='And'>And</option>
+                                <option value='But'>But</option>
+                            </select>
+                        )}
+                    </div>
+                    <div className="step-sentence" onClick={this.switchSentenceToWrite} onBlur={this.switchSentenceToRead}>
+                        {this.state.sentenceMode === 'read' ? (
+                            this.state.step.sentence
+                        ) : (
+                            <input
+                                type="text"
+                                value={this.state.step.sentence}
+                                autoFocus={true}
+                                onChange={this.handleSentenceChange}
+                            />
+                        )}
+                    </div>
                 </div>
                 {this.state.step.parameter ? (
                     <StepParameter
