@@ -12,8 +12,6 @@ export default class StepParameterTableCell extends React.Component {
         this.switchToRead = this.switchToRead.bind(this);
         this.switchToWrite = this.switchToWrite.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
-        this.handleDeleteColumn = this.handleDeleteColumn.bind(this);
-        this.handleDeleteRow = this.handleDeleteRow.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -30,16 +28,6 @@ export default class StepParameterTableCell extends React.Component {
         this.setState({ mode: 'write' });
     }
 
-    handleDeleteColumn(e) {
-        e.stopPropagation();
-        this.props.onDeleteColumn(this.props.column);
-    }
-
-    handleDeleteRow(e) {
-        e.stopPropagation();
-        this.props.onDeleteRow(this.props.row);
-    }
-
     handleValueChange(e) {
         this.setState({ value: e.target.value });
         this.props.onChange({
@@ -51,15 +39,7 @@ export default class StepParameterTableCell extends React.Component {
 
     render() {
         return (
-            <td onClick={this.switchToWrite} onBlur={this.switchToRead} className="stepParameterTableCell">
-                {this.props.row === 0 ? (
-                    <div className="stepParameterTableCell-deleteColumn" onClick={this.handleDeleteColumn}>X</div>
-                ) : null}
-
-                {this.props.column === 0 ? (
-                    <div className="stepParameterTableCell-deleteRow" onClick={this.handleDeleteRow}>X</div>
-                ) : null}
-
+            <td onClick={this.switchToWrite} onBlur={this.switchToRead} className={`stepParameterTableCell stepParameterTableCell--${this.state.mode}Mode`}>
                 {this.state.mode === 'read' ? (
                     this.state.value ? this.state.value : <span className="stepParameterTableCell-placeholder">-</span>
                 ) : (

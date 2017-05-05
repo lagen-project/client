@@ -1,5 +1,6 @@
 import React from 'react';
 
+import CloseButton from './closeButton';
 import StepParameter from './stepParameter';
 
 export default class Step extends React.Component {
@@ -12,6 +13,7 @@ export default class Step extends React.Component {
             typeMode: 'read'
         };
 
+        this.handleClose = this.handleClose.bind(this);
         this.handleParameterChange = this.handleParameterChange.bind(this);
         this.handleSentenceChange = this.handleSentenceChange.bind(this);
         this.handleTypeChange = this.handleTypeChange.bind(this);
@@ -73,15 +75,20 @@ export default class Step extends React.Component {
         });
     }
 
+    handleClose() {
+        this.props.onClose(this.props.id);
+    }
+
     render() {
         return (
             <div className="step">
+                <CloseButton onClick={this.handleClose} />
                 <div className="grid">
                     <div className="step-type" onClick={this.switchTypeToWrite} onBlur={this.switchTypeToRead}>
                         {this.state.typeMode === 'read' ? (
                             this.state.step.type
                         ) : (
-                            <select value={this.state.step.type} onChange={this.handleTypeChange}>
+                            <select value={this.state.step.type} onChange={this.handleTypeChange} autoFocus={true}>
                                 <option value='Given'>Given</option>
                                 <option value='When'>When</option>
                                 <option value='Then'>Then</option>

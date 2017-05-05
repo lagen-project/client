@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PlusButton from './plusButton';
 import Step from './step';
 
 export default class Scenario extends React.Component {
@@ -15,6 +16,8 @@ export default class Scenario extends React.Component {
         this.switchToWrite = this.switchToWrite.bind(this);
         this.handleStepChange = this.handleStepChange.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleStepAdd = this.handleStepAdd.bind(this);
+        this.handleStepClose = this.handleStepClose.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -51,6 +54,29 @@ export default class Scenario extends React.Component {
         });
     }
 
+    handleStepAdd() {
+        let scenario = this.state.scenario;
+
+        scenario.steps.push({
+            type: 'Given',
+            sentence: ''
+        });
+        this.props.onChange({
+            scenario,
+            key: this.props.id
+        });
+    }
+
+    handleStepClose(stepId) {
+        let scenario = this.state.scenario;
+
+        scenario.steps.splice(stepId, 1);
+        this.props.onChange({
+            scenario,
+            key: this.props.id
+        });
+    }
+
     render() {
         return (
             <div className={`scenario scenario--${this.state.scenario.type}`}>
@@ -73,8 +99,10 @@ export default class Scenario extends React.Component {
                         key={id}
                         id={id}
                         onChange={this.handleStepChange}
+                        onClose={this.handleStepClose}
                     />
                 ))}
+                <PlusButton label="Add step" onClick={this.handleStepAdd} />
             </div>
         );
     }

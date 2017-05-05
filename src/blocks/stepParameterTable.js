@@ -1,6 +1,8 @@
 import React from 'react';
 
 import StepParameterTableCell from './stepParameterTableCell';
+import StepParameterTableDeleteColumnCell from './stepParameterTableDeleteColumnCell';
+import StepParameterTableDeleteRowCell from './stepParameterTableDeleteRowCell';
 
 export default class StepParameterTable extends React.Component {
     constructor(props) {
@@ -82,9 +84,24 @@ export default class StepParameterTable extends React.Component {
             <div className="stepParameterTable">
                 <table>
                     <tbody>
+                        <tr className="stepParameterTable-deleteColumn">
+                            <td className="stepParameterTable-deleteRow"> </td>
+                            {this.state.parameter.value[0].map((column, columnId) => (
+                                <StepParameterTableDeleteColumnCell
+                                    column={columnId}
+                                    onDeleteColumn={this.handleColumnDelete}
+                                    key={columnId}
+                                />
+                            ))}
+                            <td> </td>
+                        </tr>
                         {this.state.parameter.value.map((row, rowId) => {
                             return (
                                 <tr key={rowId}>
+                                    <StepParameterTableDeleteRowCell
+                                        row={rowId}
+                                        onDeleteRow={this.handleRowDelete}
+                                    />
                                     {row.map((cell, columnId) => (
                                         <StepParameterTableCell
                                             key={columnId}
@@ -107,6 +124,7 @@ export default class StepParameterTable extends React.Component {
                             )
                         })}
                         <tr className="stepParameterTable-placeholderRow">
+                            <td> </td>
                             <td colSpan={nbColumns} onClick={this.handleRowAdd}>v</td>
                         </tr>
                     </tbody>
