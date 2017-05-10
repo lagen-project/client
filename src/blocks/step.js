@@ -15,6 +15,7 @@ export default class Step extends React.Component {
 
         this.handleClose = this.handleClose.bind(this);
         this.handleParameterChange = this.handleParameterChange.bind(this);
+        this.handleParameterValueChange = this.handleParameterValueChange.bind(this);
         this.handleSentenceChange = this.handleSentenceChange.bind(this);
         this.handleTypeChange = this.handleTypeChange.bind(this);
         this.switchSentenceToRead = this.switchSentenceToRead.bind(this);
@@ -65,10 +66,20 @@ export default class Step extends React.Component {
         });
     }
 
-    handleParameterChange(newValue) {
+    handleParameterValueChange(newValue) {
         let step = this.state.step;
 
         step.parameter.value = newValue;
+        this.props.onChange({
+            step,
+            id: this.props.id
+        });
+    }
+
+    handleParameterChange(newParameter) {
+        let step = this.state.step;
+
+        step.parameter = newParameter;
         this.props.onChange({
             step,
             id: this.props.id
@@ -114,6 +125,7 @@ export default class Step extends React.Component {
                     <StepParameter
                         parameter={this.state.step.parameter}
                         onChange={this.handleParameterChange}
+                        onValueChange={this.handleParameterValueChange}
                     />
                 ): null}
             </div>
