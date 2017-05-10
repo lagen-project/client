@@ -9,7 +9,7 @@ export default class Step extends React.Component {
 
         this.state = {
             step: this.props.step,
-            sentenceMode: 'read',
+            sentenceMode: this.props.step.sentence !== '' ? 'read' : 'write',
             typeMode: 'read'
         };
 

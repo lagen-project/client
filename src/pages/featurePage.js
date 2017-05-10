@@ -73,7 +73,7 @@ export default class FeaturePage extends React.Component {
     handleScenarioChange(e) {
         let feature = this.state.feature;
 
-        feature.scenarios[e.id] = e.scenario;
+        feature.scenarios[e.key] = e.scenario;
         console.log(feature);
         this.setState({ feature });
     }
