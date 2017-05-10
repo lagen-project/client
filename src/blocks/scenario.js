@@ -2,6 +2,7 @@ import React from 'react';
 
 import CloseButton from './closeButton';
 import PlusButton from './plusButton';
+import ScenarioTypeButton from './scenarioTypeButton';
 import Step from './step';
 
 export default class Scenario extends React.Component {
@@ -15,6 +16,7 @@ export default class Scenario extends React.Component {
 
         this.switchToRead = this.switchToRead.bind(this);
         this.switchToWrite = this.switchToWrite.bind(this);
+        this.switchType = this.switchType.bind(this);
         this.handleStepChange = this.handleStepChange.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleStepAdd = this.handleStepAdd.bind(this);
@@ -34,6 +36,17 @@ export default class Scenario extends React.Component {
 
     switchToWrite() {
         this.setState({ mode: 'write' });
+    }
+
+    switchType() {
+        let scenario = this.state.scenario;
+
+        scenario.type = scenario.type === 'regular' ? 'background' : 'regular';
+
+        this.props.onChange({
+            scenario,
+            key: this.props.id
+        });
     }
 
     handleStepChange(e) {
@@ -86,6 +99,7 @@ export default class Scenario extends React.Component {
     render() {
         return (
             <div className={`scenario scenario--${this.state.scenario.type}`}>
+                <ScenarioTypeButton onClick={this.switchType} />
                 <CloseButton onClick={this.handleClose} />
                 <h2 className={`scenarioTitle scenarioTitle--${this.state.mode}Mode`} onClick={this.switchToWrite} onBlur={this.switchToRead}>
                     {this.state.mode === 'read' ? (
