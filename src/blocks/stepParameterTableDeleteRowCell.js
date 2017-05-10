@@ -14,7 +14,7 @@ export default class StepParameterTableDeleteRowCell extends React.Component {
     render() {
         return (
             <td onClick={this.handleClick} className="stepParameterTable-deleteRow">
-                x
+                <i className="fa fa-close" aria-hidden="true"> </i>
             </td>
         );
     }

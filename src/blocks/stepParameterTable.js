@@ -118,14 +118,18 @@ export default class StepParameterTable extends React.Component {
                                             rowSpan={nbRows}
                                             className="stepParameterTable-placeholderColumn"
                                             onClick={this.handleColumnAdd}
-                                        > > </td>
+                                        >
+                                            <i className="fa fa-arrow-right" aria-hidden="true"> </i>
+                                        </td>
                                     ) : null}
                                 </tr>
                             )
                         })}
                         <tr className="stepParameterTable-placeholderRow">
                             <td> </td>
-                            <td colSpan={nbColumns} onClick={this.handleRowAdd}>v</td>
+                            <td colSpan={nbColumns} onClick={this.handleRowAdd}>
+                                <i className="fa fa-arrow-down" aria-hidden="true"> </i>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
