@@ -13,6 +13,7 @@ export default class StepParameter extends React.Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.removeParameter = this.removeParameter.bind(this);
         this.switchToString = this.switchToString.bind(this);
         this.switchToTable = this.switchToTable.bind(this);
     }
@@ -35,6 +36,10 @@ export default class StepParameter extends React.Component {
         this.changeParameterType('table');
     }
 
+    removeParameter() {
+        this.props.onRemove();
+    }
+
     changeParameterType(newType) {
         let parameter = this.state.parameter;
 
@@ -52,6 +57,7 @@ export default class StepParameter extends React.Component {
                     <StepParameterTypeButton
                         icon="ban"
                         selected={!this.state.parameter}
+                        onClick={this.removeParameter}
                     />
                     <StepParameterTypeButton
                         icon="bars"
