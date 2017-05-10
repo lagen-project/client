@@ -84,7 +84,7 @@ export default class Step extends React.Component {
             <div className="step">
                 <CloseButton onClick={this.handleClose} />
                 <div className="grid">
-                    <div className="step-type" onClick={this.switchTypeToWrite} onBlur={this.switchTypeToRead}>
+                    <div className={`step-type step-type--${this.state.typeMode}Mode`} onClick={this.switchTypeToWrite} onBlur={this.switchTypeToRead}>
                         {this.state.typeMode === 'read' ? (
                             this.state.step.type
                         ) : (
@@ -97,7 +97,7 @@ export default class Step extends React.Component {
                             </select>
                         )}
                     </div>
-                    <div className="step-sentence" onClick={this.switchSentenceToWrite} onBlur={this.switchSentenceToRead}>
+                    <div className={`step-sentence step-sentence--${this.state.sentenceMode}Mode`} onClick={this.switchSentenceToWrite} onBlur={this.switchSentenceToRead}>
                         {this.state.sentenceMode === 'read' ? (
                             this.state.step.sentence
                         ) : (
