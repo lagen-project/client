@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PlusButton from '../blocks/plusButton';
 import Scenario from '../blocks/scenario';
 
 export default class FeaturePage extends React.Component {
@@ -10,7 +11,9 @@ export default class FeaturePage extends React.Component {
             feature: null
         };
 
+        this.handleScenarioAdd = this.handleScenarioAdd.bind(this);
         this.handleScenarioChange = this.handleScenarioChange.bind(this);
+        this.handleScenarioClose = this.handleScenarioClose.bind(this);
     }
 
     componentWillMount() {
@@ -75,6 +78,25 @@ export default class FeaturePage extends React.Component {
         this.setState({ feature });
     }
 
+    handleScenarioAdd() {
+        let feature = this.state.feature;
+
+        feature.scenarios.push({
+            name: '',
+            type: 'regular',
+            steps: []
+        });
+        this.setState({ feature });
+    }
+
+    handleScenarioClose(scenarioId) {
+        let feature = this.state.feature;
+
+        feature.scenarios.splice(scenarioId, 1);
+
+        this.setState({ feature });
+    }
+
     render() {
         return this.state.feature === null ? null : (
             <div className="page featurePage">
@@ -86,8 +108,10 @@ export default class FeaturePage extends React.Component {
                         key={id}
                         id={id}
                         onChange={this.handleScenarioChange}
+                        onClose={this.handleScenarioClose}
                     />
                 ))}
+                <PlusButton onClick={this.handleScenarioAdd} />
             </div>
         );
     }

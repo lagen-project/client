@@ -1,5 +1,6 @@
 import React from 'react';
 
+import CloseButton from './closeButton';
 import PlusButton from './plusButton';
 import Step from './step';
 
@@ -9,7 +10,7 @@ export default class Scenario extends React.Component {
 
         this.state = {
             scenario: this.props.scenario,
-            mode: 'read'
+            mode: this.props.scenario.name ? 'read' : 'write'
         };
 
         this.switchToRead = this.switchToRead.bind(this);
@@ -18,6 +19,7 @@ export default class Scenario extends React.Component {
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleStepAdd = this.handleStepAdd.bind(this);
         this.handleStepClose = this.handleStepClose.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -77,12 +79,19 @@ export default class Scenario extends React.Component {
         });
     }
 
+    handleClose() {
+        this.props.onClose(this.props.id);
+    }
+
     render() {
         return (
             <div className={`scenario scenario--${this.state.scenario.type}`}>
+                <CloseButton onClick={this.handleClose} />
                 <h2 className={`scenarioTitle scenarioTitle--${this.state.mode}Mode`} onClick={this.switchToWrite} onBlur={this.switchToRead}>
                     {this.state.mode === 'read' ? (
-                        this.state.scenario.name
+                        this.state.scenario.name ? this.state.scenario.name : (
+                            <i>New scenario</i>
+                        )
                     ) : (
                         <input
                             type="text"
@@ -102,7 +111,7 @@ export default class Scenario extends React.Component {
                         onClose={this.handleStepClose}
                     />
                 ))}
-                <PlusButton label="Add step" onClick={this.handleStepAdd} />
+                <PlusButton onClick={this.handleStepAdd} />
             </div>
         );
     }
