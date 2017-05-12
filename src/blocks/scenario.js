@@ -99,23 +99,27 @@ export default class Scenario extends React.Component {
     render() {
         return (
             <div className={`scenario scenario--${this.state.scenario.type}`}>
-                <ScenarioTypeButton onClick={this.switchType} />
+                {this.props.backgroundable === true ? (
+                    <ScenarioTypeButton onClick={this.switchType} />
+                ) : null}
                 <CloseButton onClick={this.handleClose} />
-                <h2 className={`scenarioTitle scenarioTitle--${this.state.mode}Mode`} onClick={this.switchToWrite} onBlur={this.switchToRead}>
-                    {this.state.mode === 'read' ? (
-                        this.state.scenario.name ? this.state.scenario.name : (
-                            <i>New scenario</i>
-                        )
-                    ) : (
-                        <input
-                            type="text"
-                            className="scenario-titleInput"
-                            value={this.state.scenario.name}
-                            onChange={this.handleNameChange}
-                            autoFocus={true}
-                        />
-                    )}
-                </h2>
+                {this.state.scenario.type === 'regular' ? (
+                    <h2 className={`scenarioTitle scenarioTitle--${this.state.mode}Mode`} onClick={this.switchToWrite} onBlur={this.switchToRead}>
+                        {this.state.mode === 'read' ? (
+                            this.state.scenario.name ? this.state.scenario.name : (
+                                <i>New scenario</i>
+                            )
+                        ) : (
+                            <input
+                                type="text"
+                                className="scenario-titleInput"
+                                value={this.state.scenario.name}
+                                onChange={this.handleNameChange}
+                                autoFocus={true}
+                            />
+                        )}
+                    </h2>
+                ) : null}
                 {this.state.scenario.steps.map((step, id) => (
                     <Step
                         step={step}

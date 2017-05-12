@@ -109,6 +109,7 @@ export default class FeaturePage extends React.Component {
                         id={id}
                         onChange={this.handleScenarioChange}
                         onClose={this.handleScenarioClose}
+                        backgroundable={id === 0}
                     />
                 ))}
                 <PlusButton onClick={this.handleScenarioAdd} />

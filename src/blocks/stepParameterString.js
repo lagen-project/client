@@ -36,7 +36,9 @@ export default class StepParameterString extends React.Component {
         return (
             <div className={`stepParameterString stepParameterString--${this.state.mode}Mode`} onClick={this.switchToWrite} onBlur={this.switchToRead}>
                 {this.state.mode === 'read' ? (
-                    this.state.parameter.value.split('\n').map((str, id) => <p key={id}>{str}</p>)
+                    this.state.parameter.value ?
+                    this.state.parameter.value.split('\n').map((str, id) => <p key={id}>{str}</p>) :
+                    <span className="stepParameterString-placeholder">-</span>
                 ) : (
                     <textarea
                         value={this.state.parameter.value}

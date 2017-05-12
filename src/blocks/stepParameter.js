@@ -41,8 +41,10 @@ export default class StepParameter extends React.Component {
     }
 
     changeParameterType(newType) {
-        let parameter = this.state.parameter;
-
+        let parameter = this.state.parameter ? this.state.parameter : {
+            type: '',
+            value: null
+        };
 
         parameter.type = newType;
         parameter.value = newType === 'string' ? '' : [['']];
