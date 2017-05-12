@@ -32,19 +32,27 @@ export default class Step extends React.Component {
     }
 
     switchSentenceToRead() {
-        this.setState({ sentenceMode: 'read' });
+        if (this.props.featureMode === 'write') {
+            this.setState({ sentenceMode: 'read' });
+        }
     }
 
     switchSentenceToWrite() {
-        this.setState({ sentenceMode: 'write' });
+        if (this.props.featureMode === 'write') {
+            this.setState({sentenceMode: 'write'});
+        }
     }
 
     switchTypeToRead() {
-        this.setState({ typeMode: 'read' });
+        if (this.props.featureMode === 'write') {
+            this.setState({typeMode: 'read'});
+        }
     }
 
     switchTypeToWrite() {
-        this.setState({ typeMode: 'write' });
+        if (this.props.featureMode === 'write') {
+            this.setState({typeMode: 'write'});
+        }
     }
 
     handleSentenceChange(e) {
@@ -105,10 +113,12 @@ export default class Step extends React.Component {
     render() {
         return (
             <div className="step">
-                <CloseButton onClick={this.handleClose} />
+                {this.props.featureMode === 'write' ? (
+                    <CloseButton onClick={this.handleClose} />
+                ) : null}
                 <div className="grid">
                     <div className={`step-type step-type--${this.state.typeMode}Mode`} onClick={this.switchTypeToWrite} onBlur={this.switchTypeToRead}>
-                        {this.state.typeMode === 'read' ? (
+                        {this.state.typeMode === 'read' || this.props.featureMode === 'read' ? (
                             this.state.step.type
                         ) : (
                             <select value={this.state.step.type} onChange={this.handleTypeChange} autoFocus={true}>
@@ -121,7 +131,7 @@ export default class Step extends React.Component {
                         )}
                     </div>
                     <div className={`step-sentence step-sentence--${this.state.sentenceMode}Mode`} onClick={this.switchSentenceToWrite} onBlur={this.switchSentenceToRead}>
-                        {this.state.sentenceMode === 'read' ? (
+                        {this.state.sentenceMode === 'read' || this.props.featureMode === 'read' ? (
                             this.state.step.sentence
                         ) : (
                             <input
@@ -138,6 +148,7 @@ export default class Step extends React.Component {
                     onChange={this.handleParameterChange}
                     onValueChange={this.handleParameterValueChange}
                     onRemove={this.handleRemoveParameter}
+                    featureMode={this.props.featureMode}
                 />
             </div>
         );

@@ -15,11 +15,15 @@ export default class StepParameterString extends React.Component {
     }
 
     switchToRead() {
-        this.setState({ mode: 'read' });
+        if (this.props.featureMode === 'write') {
+            this.setState({mode: 'read'});
+        }
     }
 
     switchToWrite() {
-        this.setState({ mode: 'write' });
+        if (this.props.featureMode === 'write') {
+            this.setState({mode: 'write'});
+        }
     }
 
     handleValueChange(e) {
@@ -35,7 +39,7 @@ export default class StepParameterString extends React.Component {
     render() {
         return (
             <div className={`stepParameterString stepParameterString--${this.state.mode}Mode`} onClick={this.switchToWrite} onBlur={this.switchToRead}>
-                {this.state.mode === 'read' ? (
+                {this.state.mode === 'read' || this.props.featureMode === 'read' ? (
                     this.state.parameter.value ?
                     this.state.parameter.value.split('\n').map((str, id) => <p key={id}>{str}</p>) :
                     <span className="stepParameterString-placeholder">-</span>

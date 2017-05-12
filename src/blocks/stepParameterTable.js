@@ -84,24 +84,28 @@ export default class StepParameterTable extends React.Component {
             <div className="stepParameterTable">
                 <table>
                     <tbody>
-                        <tr className="stepParameterTable-deleteColumn">
-                            <td className="stepParameterTable-deleteRow"> </td>
-                            {this.state.parameter.value[0].map((column, columnId) => (
-                                <StepParameterTableDeleteColumnCell
-                                    column={columnId}
-                                    onDeleteColumn={this.handleColumnDelete}
-                                    key={columnId}
-                                />
-                            ))}
-                            <td> </td>
-                        </tr>
+                        {this.props.featureMode === 'write' ? (
+                            <tr className="stepParameterTable-deleteColumn">
+                                <td className="stepParameterTable-deleteRow"> </td>
+                                {this.state.parameter.value[0].map((column, columnId) => (
+                                    <StepParameterTableDeleteColumnCell
+                                        column={columnId}
+                                        onDeleteColumn={this.handleColumnDelete}
+                                        key={columnId}
+                                    />
+                                ))}
+                                <td> </td>
+                            </tr>
+                        ) : null}
                         {this.state.parameter.value.map((row, rowId) => {
                             return (
                                 <tr key={rowId}>
-                                    <StepParameterTableDeleteRowCell
-                                        row={rowId}
-                                        onDeleteRow={this.handleRowDelete}
-                                    />
+                                    {this.props.featureMode === 'write' ? (
+                                        <StepParameterTableDeleteRowCell
+                                            row={rowId}
+                                            onDeleteRow={this.handleRowDelete}
+                                        />
+                                    ) : null}
                                     {row.map((cell, columnId) => (
                                         <StepParameterTableCell
                                             key={columnId}
@@ -111,9 +115,10 @@ export default class StepParameterTable extends React.Component {
                                             onChange={this.handleCellChange}
                                             onDeleteColumn={this.handleColumnDelete}
                                             onDeleteRow={this.handleRowDelete}
+                                            featureMode={this.props.featureMode}
                                         />
                                     ))}
-                                    {rowId === 0 ? (
+                                    {rowId === 0 && this.props.featureMode === 'write' ? (
                                         <td
                                             rowSpan={nbRows}
                                             className="stepParameterTable-placeholderColumn"
@@ -125,12 +130,14 @@ export default class StepParameterTable extends React.Component {
                                 </tr>
                             )
                         })}
-                        <tr className="stepParameterTable-placeholderRow">
-                            <td> </td>
-                            <td colSpan={nbColumns} onClick={this.handleRowAdd}>
-                                <i className="fa fa-arrow-down" aria-hidden="true"> </i>
-                            </td>
-                        </tr>
+                        {this.props.featureMode === 'write' ? (
+                            <tr className="stepParameterTable-placeholderRow">
+                                <td> </td>
+                                <td colSpan={nbColumns} onClick={this.handleRowAdd}>
+                                    <i className="fa fa-arrow-down" aria-hidden="true"> </i>
+                                </td>
+                            </tr>
+                        ) : null}
                     </tbody>
                 </table>
             </div>

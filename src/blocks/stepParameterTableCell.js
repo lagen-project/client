@@ -21,11 +21,15 @@ export default class StepParameterTableCell extends React.Component {
     }
 
     switchToRead() {
-        this.setState({ mode: 'read' });
+        if (this.props.featureMode === 'write') {
+            this.setState({mode: 'read'});
+        }
     }
 
     switchToWrite() {
-        this.setState({ mode: 'write' });
+        if (this.props.featureMode === 'write') {
+            this.setState({mode: 'write'});
+        }
     }
 
     handleValueChange(e) {
@@ -40,7 +44,7 @@ export default class StepParameterTableCell extends React.Component {
     render() {
         return (
             <td onClick={this.switchToWrite} onBlur={this.switchToRead} className={`stepParameterTableCell stepParameterTableCell--${this.state.mode}Mode`}>
-                {this.state.mode === 'read' ? (
+                {this.state.mode === 'read' || this.props.featureMode === 'read' ? (
                     this.state.value ? this.state.value : <span className="stepParameterTableCell-placeholder">-</span>
                 ) : (
                     <input type="text" value={this.state.value} onChange={this.handleValueChange} autoFocus={true} />

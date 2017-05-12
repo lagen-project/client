@@ -29,15 +29,21 @@ export default class StepParameter extends React.Component {
     }
 
     switchToString() {
-        this.changeParameterType('string');
+        if (this.props.featureMode === 'write') {
+            this.changeParameterType('string');
+        }
     }
 
     switchToTable() {
-        this.changeParameterType('table');
+        if (this.props.featureMode === 'write') {
+            this.changeParameterType('table');
+        }
     }
 
     removeParameter() {
-        this.props.onRemove();
+        if (this.props.featureMode === 'write') {
+            this.props.onRemove();
+        }
     }
 
     changeParameterType(newType) {
@@ -55,28 +61,38 @@ export default class StepParameter extends React.Component {
     render() {
         return (
             <div className="stepParameter">
-                <div className="stepParameter-typeSelection">
-                    <StepParameterTypeButton
-                        icon="ban"
-                        selected={!this.state.parameter}
-                        onClick={this.removeParameter}
-                    />
-                    <StepParameterTypeButton
-                        icon="bars"
-                        selected={this.state.parameter && this.state.parameter.type === 'string'}
-                        onClick={this.switchToString}
-                    />
-                    <StepParameterTypeButton
-                        icon="table"
-                        selected={this.state.parameter && this.state.parameter.type === 'table'}
-                        onClick={this.switchToTable}
-                    />
-                </div>
+                {this.props.featureMode === 'write' ? (
+                    <div className="stepParameter-typeSelection">
+                        <StepParameterTypeButton
+                            icon="ban"
+                            selected={!this.state.parameter}
+                            onClick={this.removeParameter}
+                        />
+                        <StepParameterTypeButton
+                            icon="bars"
+                            selected={this.state.parameter && this.state.parameter.type === 'string'}
+                            onClick={this.switchToString}
+                        />
+                        <StepParameterTypeButton
+                            icon="table"
+                            selected={this.state.parameter && this.state.parameter.type === 'table'}
+                            onClick={this.switchToTable}
+                        />
+                    </div>
+                ) : null}
                 {this.state.parameter ? (
                     this.props.parameter.type === 'string' ? (
-                        <StepParameterString parameter={this.props.parameter} onChange={this.handleChange}/>
+                        <StepParameterString
+                            parameter={this.props.parameter}
+                            onChange={this.handleChange}
+                            featureMode={this.props.featureMode}
+                        />
                     ) : (
-                        <StepParameterTable parameter={this.props.parameter} onChange={this.handleChange}/>
+                        <StepParameterTable
+                            parameter={this.props.parameter}
+                            onChange={this.handleChange}
+                            featureMode={this.props.featureMode}
+                        />
                     )
                 ) : null}
             </div>
