@@ -3,6 +3,10 @@ import React from 'react';
 import config from '../config.json';
 
 export default class RestModel {
+    constructor() {
+        this.config = config;
+    }
+
     create(resource) {
         return fetch(
             `${config.api}/${this.resourceName}`,

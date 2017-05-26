@@ -1,18 +1,18 @@
 import React from 'react';
 
-export default class NewProject extends React.Component {
+export default class NewFeature extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             displayed: false,
-            projectName: ''
+            featureName: ''
         };
 
         this.displayForm = this.displayForm.bind(this);
         this.hideForm = this.hideForm.bind(this);
         this.submitForm = this.submitForm.bind(this);
-        this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
+        this.handleFeatureNameChange = this.handleFeatureNameChange.bind(this);
     }
 
     displayForm() {
@@ -24,36 +24,36 @@ export default class NewProject extends React.Component {
     }
 
     submitForm() {
-        this.props.onSubmit(this.state.projectName);
+        this.props.onSubmit(this.state.featureName);
         this.setState({ displayed: false });
     }
 
-    handleProjectNameChange(e) {
-        this.setState({ projectName: e.target.value });
+    handleFeatureNameChange(e) {
+        this.setState({ featureName: e.target.value });
     }
 
     render() {
         return (
-            <div className={`newProject`}>
+            <div className={`newFeature`}>
                 {this.state.displayed ? (
-                    <div className="newProject-form grid">
+                    <div className="newFeature-form grid">
                         <input
                             type="text"
-                            placeholder="Project name..."
+                            placeholder="Feature name..."
                             autoFocus={true}
-                            onChange={this.handleProjectNameChange}
-                            value={this.state.projectName}
+                            onChange={this.handleFeatureNameChange}
+                            value={this.state.featureName}
                         />
-                        <div className="newProject-okButton" onClick={this.submitForm}>
+                        <div className="newFeature-okButton" onClick={this.submitForm}>
                             <i className="fa fa-check" aria-hidden="true"> </i>
                         </div>
-                        <div className="newProject-closeButton" onClick={this.hideForm}>
+                        <div className="newFeature-closeButton" onClick={this.hideForm}>
                             <i className="fa fa-close" aria-hidden="true"> </i>
                         </div>
                     </div>
                 ) : (
-                    <div className="newProject-button" onClick={this.displayForm}>
-                        New project
+                    <div className="newFeature-button" onClick={this.displayForm}>
+                        New feature
                     </div>
                 )}
             </div>

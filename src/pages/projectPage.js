@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import FeatureModel from '../models/featureModel';
+import NewFeature from '../blocks/newFeature';
 import ProjectModel from '../models/projectModel';
 
 export default class ProjectPage extends React.Component {
@@ -9,13 +11,25 @@ export default class ProjectPage extends React.Component {
 
         this.state = {
             project: null
-        }
+        };
+
+        this.addFeature = this.addFeature.bind(this);
     }
 
     componentWillMount() {
+        this.readProject();
+    }
+
+    readProject() {
         ProjectModel.read(this.props.match.params.projectSlug).then(project => {
             this.setState({ project });
         });
+    }
+
+    addFeature(featureName) {
+        FeatureModel.create(this.props.match.params.projectSlug, {
+            name: featureName
+        }).then(() => this.readProject());
     }
 
     render() {
@@ -37,6 +51,7 @@ export default class ProjectPage extends React.Component {
                         )
                     })}
                 </div>
+                <NewFeature onSubmit={this.addFeature} />
             </div>
         );
     }
