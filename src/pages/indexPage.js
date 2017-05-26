@@ -1,19 +1,51 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import NewProject from "../blocks/newProject";
+import ProjectModel from "../models/projectModel";
+
 export default class IndexPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            projects: []
+        };
+
+        this.addProject = this.addProject.bind(this);
+    }
+
+    componentWillMount() {
+        this.listProjects();
+    }
+
+    addProject(projectName) {
+        ProjectModel.create({
+            name: projectName
+        }).then(() => this.listProjects());
+    }
+
+    listProjects() {
+        ProjectModel.list().then(projects => {
+            this.setState({ projects });
+        });
+    }
+
     render() {
         return (
             <div className="page indexPage">
                 <h1>Projects</h1>
 
-                <div className="grid-6 txtcenter has-gutter">
-                    <div className="one-quarter">
-                        <Link to="/project/1" className="indexPage-link">
-                            Test project
-                        </Link>
-                    </div>
+                <div className="grid txtcenter has-gutter">
+                    {this.state.projects.map((project, key) => (
+                        <div className="one-quarter" key={key}>
+                            <Link to={`/project/${project.slug}`} className="indexPage-link">
+                                {project.name}
+                            </Link>
+                        </div>
+                    ))}
                 </div>
+                <NewProject onSubmit={this.addProject} />
             </div>
         );
     }
