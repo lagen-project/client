@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FeatureModeButton from '../blocks/featureModeButton';
+import FeatureModel from '../models/featureModel';
 import PlusButton from '../blocks/plusButton';
 import Scenario from '../blocks/scenario';
 
@@ -20,57 +21,9 @@ export default class FeaturePage extends React.Component {
     }
 
     componentWillMount() {
-        this.setState({
-            feature: {
-                id: 1,
-                name: "Testing stuff",
-                scenarios: [
-                    {
-                        name: 'Prequel',
-                        type: 'background',
-                        steps: [
-                            {
-                                type: 'Given',
-                                sentence: 'I have something like this :',
-                                parameter: {
-                                    type: 'table',
-                                    value: [
-                                        ['id', 'name'],
-                                        ['1', 'Roger']
-                                    ]
-                                }
-                            },
-                            {
-                                type: 'And',
-                                sentence: 'Something else like this :',
-                                parameter: {
-                                    type: 'string',
-                                    value: "hohoho\nhihihi"
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Actually do the testing',
-                        type: 'regular',
-                        steps: [
-                            {
-                                type: 'Given',
-                                sentence: 'I send a RabbitMQ message'
-                            },
-                            {
-                                type: 'Then',
-                                sentence: 'I should be happy with',
-                                parameter: {
-                                    type: 'string',
-                                    value: "hohoho\nhihihi"
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        });
+        FeatureModel
+            .read(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
+            .then(feature => this.setState({ feature }));
     }
 
     handleScenarioChange(e) {
