@@ -31,7 +31,7 @@ export default class ProjectPage extends React.Component {
                                     to={`/project/${this.props.match.params.projectSlug}/feature/${feature.slug}`}
                                     className="projectPage-link"
                                 >
-                                    {feature.slug}
+                                    {feature.name}
                                 </Link>
                             </div>
                         )
