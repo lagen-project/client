@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import ProjectModel from '../models/projectModel';
+
 export default class ProjectPage extends React.Component {
     constructor(props) {
         super(props);
@@ -11,33 +13,25 @@ export default class ProjectPage extends React.Component {
     }
 
     componentWillMount() {
-        this.setState({
-            project: {
-                features: [
-                    {
-                        id: 1,
-                        name: 'Testing stuff'
-                    },
-                    {
-                        id: 2,
-                        name: 'Testing some other stuff'
-                    }
-                ]
-            }
+        ProjectModel.read(this.props.match.params.projectSlug).then(project => {
+            this.setState({ project });
         });
     }
 
     render() {
         return this.state.project === null ? null : (
             <div className="page projectPage">
-                <h1>Projects</h1>
+                <h1>{this.state.project.name}</h1>
 
                 <div className="grid txtcenter has-gutter">
-                    {this.state.project.features.map((feature, id) => {
+                    {this.state.project.features.map((feature, key) => {
                         return (
-                            <div className="one-quarter" key={id}>
-                                <Link to={`/project/1/feature/${feature.id}`} className="projectPage-link">
-                                    {feature.name}
+                            <div className="one-quarter" key={key}>
+                                <Link
+                                    to={`/project/${this.props.match.params.projectSlug}/feature/${feature.slug}`}
+                                    className="projectPage-link"
+                                >
+                                    {feature.slug}
                                 </Link>
                             </div>
                         )

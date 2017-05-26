@@ -13,8 +13,8 @@ ReactDOM.render(
                 <li><Link to="/">Projects</Link></li>
             </ul>
             <Route exact path="/" component={IndexPage} />
-            <Route exact path="/project/:projectId" component={ProjectPage} />
-            <Route exact path="/project/:projectId/feature/:featureId" component={FeaturePage} />
+            <Route exact path="/project/:projectSlug" component={ProjectPage} />
+            <Route exact path="/project/:projectSlug/feature/:featureId" component={FeaturePage} />
         </div>
     </BrowserRouter>,
     document.getElementById('root')
