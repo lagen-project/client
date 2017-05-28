@@ -22,6 +22,19 @@ export default new class FeatureModel extends RestModel {
         ).then(response => response.json());
     }
 
+    edit(projectSlug, featureSlug, resource) {
+        return fetch(
+            `${this.config.api}/projects/${projectSlug}/${this.resourceName}/${featureSlug}`,
+            {
+                method: 'PUT',
+                body: JSON.stringify(resource),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        ).then(response => response.json());
+    }
+
     read(projectSlug, featureSlug) {
         return fetch(
             `${this.config.api}/projects/${projectSlug}/${this.resourceName}/${featureSlug}`

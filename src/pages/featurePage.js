@@ -2,6 +2,7 @@ import React from 'react';
 
 import FeatureModeButton from '../blocks/featureModeButton';
 import FeatureModel from '../models/featureModel';
+import FeatureSaveButton from '../blocks/featureSaveButton';
 import PlusButton from '../blocks/plusButton';
 import Scenario from '../blocks/scenario';
 
@@ -18,6 +19,7 @@ export default class FeaturePage extends React.Component {
         this.handleScenarioChange = this.handleScenarioChange.bind(this);
         this.handleScenarioClose = this.handleScenarioClose.bind(this);
         this.toggleMode = this.toggleMode.bind(this);
+        this.saveFeature = this.saveFeature.bind(this);
     }
 
     componentWillMount() {
@@ -30,7 +32,7 @@ export default class FeaturePage extends React.Component {
         let feature = this.state.feature;
 
         feature.scenarios[e.key] = e.scenario;
-        console.log(feature);
+
         this.setState({ feature });
     }
 
@@ -57,11 +59,20 @@ export default class FeaturePage extends React.Component {
         this.setState({mode: this.state.mode === 'read' ? 'write' : 'read'});
     }
 
+    saveFeature() {
+        FeatureModel.edit(
+            this.props.match.params.projectSlug,
+            this.props.match.params.featureSlug,
+            this.state.feature
+        );
+    }
+
     render() {
         return this.state.feature === null ? null : (
             <div className="page featurePage">
                 <h1>{`Feature "${this.state.feature.name}"`}</h1>
                 <FeatureModeButton mode={this.state.mode} onClick={this.toggleMode} />
+                <FeatureSaveButton onClick={this.saveFeature} />
                 {this.state.feature.scenarios.map((scenario, id) => (
                     <Scenario
                         scenario={scenario}
