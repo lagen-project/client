@@ -32,7 +32,7 @@ export default new class FeatureModel extends RestModel {
                     'Content-Type': 'application/json'
                 }
             }
-        ).then(response => response.json());
+        );
     }
 
     read(projectSlug, featureSlug) {

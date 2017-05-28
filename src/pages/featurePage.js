@@ -12,7 +12,8 @@ export default class FeaturePage extends React.Component {
 
         this.state = {
             feature: null,
-            mode: 'read'
+            mode: 'read',
+            animate: null
         };
 
         this.handleScenarioAdd = this.handleScenarioAdd.bind(this);
@@ -20,6 +21,7 @@ export default class FeaturePage extends React.Component {
         this.handleScenarioClose = this.handleScenarioClose.bind(this);
         this.toggleMode = this.toggleMode.bind(this);
         this.saveFeature = this.saveFeature.bind(this);
+        this.stopAnimation = this.stopAnimation.bind(this);
     }
 
     componentWillMount() {
@@ -60,11 +62,21 @@ export default class FeaturePage extends React.Component {
     }
 
     saveFeature() {
-        FeatureModel.edit(
-            this.props.match.params.projectSlug,
-            this.props.match.params.featureSlug,
-            this.state.feature
-        );
+        FeatureModel
+            .edit(
+                this.props.match.params.projectSlug,
+                this.props.match.params.featureSlug,
+                this.state.feature
+            )
+            .then(() => {
+                this.setState({ animate: 'success' });
+                setTimeout(this.stopAnimation, 2000);
+            })
+        ;
+    }
+
+    stopAnimation() {
+        this.setState({ animate: null })
     }
 
     render() {
@@ -72,7 +84,7 @@ export default class FeaturePage extends React.Component {
             <div className="page featurePage">
                 <h1>{`Feature "${this.state.feature.name}"`}</h1>
                 <FeatureModeButton mode={this.state.mode} onClick={this.toggleMode} />
-                <FeatureSaveButton onClick={this.saveFeature} />
+                <FeatureSaveButton animate={this.state.animate} onClick={this.saveFeature} />
                 {this.state.feature.scenarios.map((scenario, id) => (
                     <Scenario
                         scenario={scenario}
