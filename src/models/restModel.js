@@ -22,7 +22,7 @@ export default class RestModel {
 
     edit(resource) {
         return fetch(
-            `${config.api}/${this.resourceName}/${resource.id}`,
+            `${config.api}/${this.resourceName}/${resource.slug}`,
             {
                 method: 'PUT',
                 body: JSON.stringify(resource),
