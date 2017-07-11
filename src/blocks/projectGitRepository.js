@@ -46,7 +46,10 @@ export default class ProjectGitRepository extends React.Component {
 
     render() {
         return (
-            <div className={`projectGitRepository`}>
+            <div className={`projectGitRepository grid`}>
+                <div className="projectGitRepository-button" onClick={this.displayForm}>
+                    <i className="fa fa-code-fork"> </i>
+                </div>
                 {this.state.displayed ? (
                     <div className="projectGitRepository-form grid">
                         <input
@@ -64,9 +67,7 @@ export default class ProjectGitRepository extends React.Component {
                         </div>
                     </div>
                 ) : (
-                    <div className="projectGitRepository-button" onClick={this.displayForm}>
-                        <i className="fa fa-code-fork"> </i>
-                    </div>
+                    <div className="projectGitRepository-name">{this.state.projectGitRepository}</div>
                 )}
             </div>
         );

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import FeatureModel from '../models/featureModel';
 import NewFeature from '../blocks/newFeature';
 import ProjectGitRepository from '../blocks/projectGitRepository';
+import ProjectInstall from '../blocks/projectInstall';
 import ProjectModel from '../models/projectModel';
 
 export default class ProjectPage extends React.Component {
@@ -37,9 +38,12 @@ export default class ProjectPage extends React.Component {
         return this.state.project === null ? null : (
             <div className="page projectPage">
                 <h1>{this.state.project.name}</h1>
-                <ProjectGitRepository
-                    project={this.state.project}
-                />
+                <div className="projectPage-intro">
+                    <ProjectGitRepository
+                        project={this.state.project}
+                    />
+                    <ProjectInstall project={this.state.project} />
+                </div>
 
                 <div className="grid txtcenter has-gutter">
                     {this.state.project.features.map((feature, key) => {
