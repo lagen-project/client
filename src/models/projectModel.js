@@ -10,7 +10,11 @@ export default new class ProjectModel extends RestModel {
         this.resourceName = 'projects';
     }
 
-    install(id) {
-        return fetch(`${config.api}/${this.resourceName}/${id}/install`).then(response => response.json());
+    getInstallUrl(id) {
+        return `${config.api}/${this.resourceName}/${id}/install`;
+    }
+
+    gitInfo(id) {
+        return fetch(`${config.api}/${this.resourceName}/${id}/git`).then(response => response.json());
     }
 };
