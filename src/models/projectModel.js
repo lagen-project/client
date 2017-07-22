@@ -10,8 +10,14 @@ export default new class ProjectModel extends RestModel {
         this.resourceName = 'projects';
     }
 
-    getInstallUrl(id) {
-        return `${config.api}/${this.resourceName}/${id}/install`;
+    install(id, onReadyStateChange) {
+        let xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = onReadyStateChange;
+        xhr.open('GET', `${config.api}/${this.resourceName}/${id}/install`, true);
+        xhr.send();
+
+        return xhr;
     }
 
     gitInfo(id) {

@@ -13,32 +13,35 @@ export default class ProjectInstall extends React.Component {
         };
 
         this.install = this.install.bind(this);
+        this.installUpdate = this.installUpdate.bind(this);
+    }
+
+    componentDidUpdate() {
+        document.getElementById("projectInstall-output").scrollTop =
+            document.getElementById("projectInstall-output").scrollHeight;
+    }
+
+    installUpdate(e) {
+        const xhr = e.currentTarget;
+
+        if (xhr.readyState === XMLHttpRequest.LOADING) {
+            this.setState({ output: xhr.responseText });
+        } else if (xhr.readyState === XMLHttpRequest.DONE) {
+            ProjectModel
+                .gitInfo(this.props.project.slug)
+                .then(gitInfo => this.setState({
+                    gitInfo,
+                    installing: false,
+                    output: xhr.responseText
+                }));
+            this.setState({ output: xhr.responseText, installing: false });
+        }
     }
 
     install() {
         if (!this.state.installing) {
             this.setState({installing: true});
-
-            let xhr = new XMLHttpRequest();
-
-            xhr.onreadystatechange = () => {
-                document.getElementById("projectInstall-output").scrollTop =
-                    document.getElementById("projectInstall-output").scrollHeight;
-                if (xhr.readyState === XMLHttpRequest.LOADING) {
-                    this.setState({ output: xhr.responseText });
-                } else if (xhr.readyState === XMLHttpRequest.DONE) {
-                    ProjectModel
-                        .gitInfo(this.props.project.slug)
-                        .then(gitInfo => this.setState({
-                            gitInfo,
-                            installing: false,
-                            output: xhr.responseText
-                        }));
-                    this.setState({ output: xhr.responseText, installing: false });
-                }
-            };
-            xhr.open('GET', ProjectModel.getInstallUrl(this.props.project.slug), true);
-            xhr.send();
+            ProjectModel.install(this.props.project.slug, this.installUpdate);
         }
     }
 
