@@ -108,6 +108,7 @@ export default class FeaturePage extends React.Component {
                         onClose={this.handleScenarioClose}
                         backgroundable={id === 0}
                         featureMode={this.state.mode}
+                        result={this.state.results ? this.state.results[id] : null}
                     />
                 ))}
                 {this.state.mode === 'write' ? (

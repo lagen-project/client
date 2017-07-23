@@ -111,13 +111,20 @@ export default class Step extends React.Component {
     }
 
     render() {
+        console.log(this.props.result);
+        const stepResultClass = this.props.result ?
+            (this.props.result.success ? 'step--success' : 'step--failure') : '';
+
         return (
-            <div className="step">
+            <div className={`step ${stepResultClass}`}>
                 {this.props.featureMode === 'write' ? (
                     <CloseButton onClick={this.handleClose} />
                 ) : null}
                 <div className="grid">
-                    <div className={`step-type step-type--${this.state.typeMode}Mode`} onClick={this.switchTypeToWrite} onBlur={this.switchTypeToRead}>
+                    <div
+                        className={`step-type step-type--${this.state.typeMode}Mode`}
+                        onClick={this.switchTypeToWrite} onBlur={this.switchTypeToRead}
+                    >
                         {this.state.typeMode === 'read' || this.props.featureMode === 'read' ? (
                             this.state.step.type
                         ) : (
