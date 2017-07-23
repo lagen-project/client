@@ -2,6 +2,7 @@ import React from 'react';
 
 import FeatureModeButton from '../blocks/featureModeButton';
 import FeatureModel from '../models/featureModel';
+import FeatureRunButton from '../blocks/featureRunButton';
 import FeatureSaveButton from '../blocks/featureSaveButton';
 import PlusButton from '../blocks/plusButton';
 import Scenario from '../blocks/scenario';
@@ -75,6 +76,9 @@ export default class FeaturePage extends React.Component {
         ;
     }
 
+    runFeature() {
+    }
+
     stopAnimation() {
         this.setState({ animate: null })
     }
@@ -85,6 +89,7 @@ export default class FeaturePage extends React.Component {
                 <h1>{`Feature "${this.state.feature.name}"`}</h1>
                 <FeatureModeButton mode={this.state.mode} onClick={this.toggleMode} />
                 <FeatureSaveButton animate={this.state.animate} onClick={this.saveFeature} />
+                {this.state.feature.runnable ?<FeatureRunButton onClick={this.runFeature} /> : null}
                 {this.state.feature.scenarios.map((scenario, id) => (
                     <Scenario
                         scenario={scenario}
