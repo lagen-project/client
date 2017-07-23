@@ -40,4 +40,10 @@ export default new class FeatureModel extends RestModel {
             `${this.config.api}/projects/${projectSlug}/${this.resourceName}/${featureSlug}`
         ).then(response => response.json());
     }
+
+    run(projectSlug, featureSlug) {
+        return fetch(
+            `${this.config.api}/projects/${projectSlug}/${this.resourceName}/${featureSlug}/run`
+        ).then(response => response.json());
+    }
 };

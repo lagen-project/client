@@ -14,7 +14,9 @@ export default class FeaturePage extends React.Component {
         this.state = {
             feature: null,
             mode: 'read',
-            animate: null
+            animate: null,
+            running: false,
+            results: null
         };
 
         this.handleScenarioAdd = this.handleScenarioAdd.bind(this);
@@ -23,6 +25,7 @@ export default class FeaturePage extends React.Component {
         this.toggleMode = this.toggleMode.bind(this);
         this.saveFeature = this.saveFeature.bind(this);
         this.stopAnimation = this.stopAnimation.bind(this);
+        this.runFeature = this.runFeature.bind(this);
     }
 
     componentWillMount() {
@@ -77,6 +80,12 @@ export default class FeaturePage extends React.Component {
     }
 
     runFeature() {
+        this.setState({running: true});
+        FeatureModel
+            .run(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
+            .then(results => {
+                this.setState({running: false, results});
+            });
     }
 
     stopAnimation() {
@@ -89,7 +98,7 @@ export default class FeaturePage extends React.Component {
                 <h1>{`Feature "${this.state.feature.name}"`}</h1>
                 <FeatureModeButton mode={this.state.mode} onClick={this.toggleMode} />
                 <FeatureSaveButton animate={this.state.animate} onClick={this.saveFeature} />
-                {this.state.feature.runnable ?<FeatureRunButton onClick={this.runFeature} /> : null}
+                {this.state.feature.runnable ? <FeatureRunButton animate={this.state.running} onClick={this.runFeature} /> : null}
                 {this.state.feature.scenarios.map((scenario, id) => (
                     <Scenario
                         scenario={scenario}
