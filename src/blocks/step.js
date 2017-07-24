@@ -110,13 +110,28 @@ export default class Step extends React.Component {
         this.props.onClose(this.props.id);
     }
 
-    render() {
-        console.log(this.props.result);
-        const stepResultClass = this.props.result ?
-            (this.props.result.success ? 'step--success' : 'step--failure') : '';
+    resolveStepClass() {
+        if (!this.props.result) {
+            return '';
+        }
 
+        if (this.props.result.success) {
+            return 'step--success';
+        }
+
+        switch (this.props.result.reason) {
+            case 'U':
+                return 'step--undefined';
+            case '-':
+                return 'step--skipped';
+            default:
+                return 'step--failure';
+        }
+    }
+
+    render() {
         return (
-            <div className={`step ${stepResultClass}`}>
+            <div className={`step ${this.resolveStepClass()}`}>
                 {this.props.featureMode === 'write' ? (
                     <CloseButton onClick={this.handleClose} />
                 ) : null}
