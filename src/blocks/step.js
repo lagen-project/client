@@ -128,7 +128,7 @@ export default class Step extends React.Component {
                         {this.props.featureMode === 'read' ? (
                             this.state.step.type
                         ) : (
-                            <select value={this.state.step.type} onChange={this.handleTypeChange} autoFocus={true}>
+                            <select value={this.state.step.type} onChange={this.handleTypeChange}>
                                 <option value='Given'>Given</option>
                                 <option value='When'>When</option>
                                 <option value='Then'>Then</option>
