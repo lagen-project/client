@@ -21,8 +21,6 @@ export default class Step extends React.Component {
         this.handleTypeChange = this.handleTypeChange.bind(this);
         this.switchSentenceToRead = this.switchSentenceToRead.bind(this);
         this.switchSentenceToWrite = this.switchSentenceToWrite.bind(this);
-        this.switchTypeToRead = this.switchTypeToRead.bind(this);
-        this.switchTypeToWrite = this.switchTypeToWrite.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -40,18 +38,6 @@ export default class Step extends React.Component {
     switchSentenceToWrite() {
         if (this.props.featureMode === 'write') {
             this.setState({sentenceMode: 'write'});
-        }
-    }
-
-    switchTypeToRead() {
-        if (this.props.featureMode === 'write') {
-            this.setState({typeMode: 'read'});
-        }
-    }
-
-    switchTypeToWrite() {
-        if (this.props.featureMode === 'write') {
-            this.setState({typeMode: 'write'});
         }
     }
 
@@ -138,9 +124,8 @@ export default class Step extends React.Component {
                 <div className="grid">
                     <div
                         className={`step-type step-type--${this.state.typeMode}Mode`}
-                        onClick={this.switchTypeToWrite} onBlur={this.switchTypeToRead}
                     >
-                        {this.state.typeMode === 'read' || this.props.featureMode === 'read' ? (
+                        {this.props.featureMode === 'read' ? (
                             this.state.step.type
                         ) : (
                             <select value={this.state.step.type} onChange={this.handleTypeChange} autoFocus={true}>
