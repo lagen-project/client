@@ -65,6 +65,24 @@ export default class FeaturePage extends React.Component {
         this.setState({mode: this.state.mode === 'read' ? 'write' : 'read'});
     }
 
+    computeAvailableStepSentences() {
+        if (!this.state.feature) {
+            return [];
+        }
+
+        return this.state.feature.scenarios.map(scenario => {
+            return scenario.steps.map(step => step.sentence);
+        }).reduce((acc, sentencesBatch) => {
+            sentencesBatch.forEach(sentence => {
+                if (!acc.includes(sentence)) {
+                    acc.push(sentence);
+                }
+            });
+
+            return acc;
+        }, []);
+    }
+
     saveFeature() {
         FeatureModel
             .edit(
@@ -114,6 +132,9 @@ export default class FeaturePage extends React.Component {
                 {this.state.mode === 'write' ? (
                     <PlusButton onClick={this.handleScenarioAdd} />
                 ) : null}
+                <datalist id="availableSentences">
+                    {this.computeAvailableStepSentences().map((sentence, key) => <option value={sentence} key={key} />)}
+                </datalist>
             </div>
         );
     }

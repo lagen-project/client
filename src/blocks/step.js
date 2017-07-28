@@ -146,6 +146,7 @@ export default class Step extends React.Component {
                                 value={this.state.step.sentence}
                                 autoFocus={true}
                                 onChange={this.handleSentenceChange}
+                                list="availableSentences"
                             />
                         )}
                     </div>
