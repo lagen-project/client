@@ -63,21 +63,30 @@ export default class StepParameter extends React.Component {
             <div className="stepParameter">
                 {this.props.featureMode === 'write' ? (
                     <div className="stepParameter-typeSelection">
+                        {this.state.parameter ? (
+                            <div>
+                                <StepParameterTypeButton
+                                    icon="ban"
+                                    selected={false}
+                                    onClick={this.removeParameter}
+                                />
+                                <StepParameterTypeButton
+                                    icon="bars"
+                                    selected={this.state.parameter && this.state.parameter.type === 'string'}
+                                    onClick={this.switchToString}
+                                />
+                                <StepParameterTypeButton
+                                    icon="table"
+                                    selected={this.state.parameter && this.state.parameter.type === 'table'}
+                                    onClick={this.switchToTable}
+                                />
+                            </div>
+                        ) :
                         <StepParameterTypeButton
-                            icon="ban"
-                            selected={!this.state.parameter}
-                            onClick={this.removeParameter}
-                        />
-                        <StepParameterTypeButton
-                            icon="bars"
-                            selected={this.state.parameter && this.state.parameter.type === 'string'}
+                            icon="plus"
+                            selected={true}
                             onClick={this.switchToString}
-                        />
-                        <StepParameterTypeButton
-                            icon="table"
-                            selected={this.state.parameter && this.state.parameter.type === 'table'}
-                            onClick={this.switchToTable}
-                        />
+                        />}
                     </div>
                 ) : null}
                 {this.state.parameter ? (

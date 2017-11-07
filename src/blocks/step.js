@@ -151,13 +151,15 @@ export default class Step extends React.Component {
                         )}
                     </div>
                 </div>
-                <StepParameter
-                    parameter={this.state.step.parameter}
-                    onChange={this.handleParameterChange}
-                    onValueChange={this.handleParameterValueChange}
-                    onRemove={this.handleRemoveParameter}
-                    featureMode={this.props.featureMode}
-                />
+                {this.props.featureMode === 'write' || this.state.step.parameter ? (
+                    <StepParameter
+                        parameter={this.state.step.parameter}
+                        onChange={this.handleParameterChange}
+                        onValueChange={this.handleParameterValueChange}
+                        onRemove={this.handleRemoveParameter}
+                        featureMode={this.props.featureMode}
+                    />
+                ) : null}
             </div>
         );
     }

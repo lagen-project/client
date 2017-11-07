@@ -112,7 +112,7 @@ export default class FeaturePage extends React.Component {
 
     render() {
         return this.state.feature === null ? null : (
-            <div className="page featurePage">
+            <div className={`page featurePage featurePage--${this.state.mode}`}>
                 <h1>{`Feature "${this.state.feature.name}"`}</h1>
                 <FeatureModeButton mode={this.state.mode} onClick={this.toggleMode} />
                 <FeatureSaveButton animate={this.state.animate} onClick={this.saveFeature} />
