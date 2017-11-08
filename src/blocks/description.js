@@ -5,14 +5,14 @@ export default class Description extends React.Component {
         super(props);
 
         this.state = {
-            description: this.props.value,
+            description: this.props.value ? this.props.value : '',
             mode: 'read'
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (JSON.stringify(nextProps.value) !== JSON.stringify(this.state.description)) {
-            this.setState({ description: nextProps.value });
+            this.setState({ description: nextProps.value ? nextProps.value : ''});
         }
     }
 
@@ -36,7 +36,11 @@ export default class Description extends React.Component {
                 onBlur={this.switchToRead}
             >
                 {this.state.mode === 'read' ? (
-                    this.state.description.split("\n").map((slice, key) => <p key={key}>{ slice ? slice : '\u00A0' }</p>)
+                    this
+                        .state
+                        .description
+                        .split("\n")
+                        .map((slice, key) => <p key={key}>{ slice ? slice : '\u00A0' }</p>)
                 ) : (
                     <textarea
                         value={this.state.description}
