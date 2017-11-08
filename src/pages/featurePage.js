@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Description from '../blocks/description';
 import FeatureModeButton from '../blocks/featureModeButton';
 import FeatureModel from '../models/featureModel';
 import FeatureRunButton from '../blocks/featureRunButton';
@@ -25,6 +26,14 @@ export default class FeaturePage extends React.Component {
             .read(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
             .then(feature => this.setState({ feature }));
     }
+
+    handleDescriptionChange = (description) => {
+        let feature = this.state.feature;
+
+        feature.description = description;
+
+        this.setState({ feature });
+    };
 
     handleScenarioChange = (e) => {
         let feature = this.state.feature;
@@ -109,6 +118,8 @@ export default class FeaturePage extends React.Component {
                 <FeatureModeButton mode={this.state.mode} onClick={this.toggleMode} />
                 <FeatureSaveButton animate={this.state.animate} onClick={this.saveFeature} />
                 {this.state.feature.runnable ? <FeatureRunButton animate={this.state.running} onClick={this.runFeature} /> : null}
+
+                <Description value={this.state.feature.description} onChange={this.handleDescriptionChange} />
                 {this.state.feature.scenarios.map((scenario, id) => (
                     <Scenario
                         scenario={scenario}
