@@ -11,25 +11,23 @@ export default class IndexPage extends React.Component {
         this.state = {
             projects: []
         };
-
-        this.addProject = this.addProject.bind(this);
     }
 
     componentWillMount() {
         this.listProjects();
     }
 
-    addProject(projectName) {
+    addProject = (projectName) => {
         ProjectModel.create({
             name: projectName
         }).then(() => this.listProjects());
-    }
+    };
 
-    listProjects() {
+    listProjects = () => {
         ProjectModel.list().then(projects => {
             this.setState({ projects });
         });
-    }
+    };
 
     render() {
         return (

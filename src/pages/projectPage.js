@@ -14,25 +14,23 @@ export default class ProjectPage extends React.Component {
         this.state = {
             project: null
         };
-
-        this.addFeature = this.addFeature.bind(this);
     }
 
     componentWillMount() {
         this.readProject();
     }
 
-    readProject() {
+    readProject = () => {
         ProjectModel.read(this.props.match.params.projectSlug).then(project => {
             this.setState({ project });
         });
-    }
+    };
 
-    addFeature(featureName) {
+    addFeature = (featureName) => {
         FeatureModel.create(this.props.match.params.projectSlug, {
             name: featureName
         }).then(() => this.readProject());
-    }
+    };
 
     render() {
         return this.state.project === null ? null : (

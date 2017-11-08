@@ -11,11 +11,6 @@ export default class StepParameter extends React.Component {
         this.state = {
             parameter: this.props.parameter
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.removeParameter = this.removeParameter.bind(this);
-        this.switchToString = this.switchToString.bind(this);
-        this.switchToTable = this.switchToTable.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -24,29 +19,29 @@ export default class StepParameter extends React.Component {
         }
     }
 
-    handleChange(newValue) {
+    handleChange = (newValue) => {
         this.props.onValueChange(newValue);
-    }
+    };
 
-    switchToString() {
+    switchToString = () => {
         if (this.props.featureMode === 'write') {
             this.changeParameterType('string');
         }
-    }
+    };
 
-    switchToTable() {
+    switchToTable = () => {
         if (this.props.featureMode === 'write') {
             this.changeParameterType('table');
         }
-    }
+    };
 
-    removeParameter() {
+    removeParameter = () => {
         if (this.props.featureMode === 'write') {
             this.props.onRemove();
         }
-    }
+    };
 
-    changeParameterType(newType) {
+    changeParameterType = (newType) => {
         let parameter = this.state.parameter ? this.state.parameter : {
             type: '',
             value: null
@@ -56,7 +51,7 @@ export default class StepParameter extends React.Component {
         parameter.value = newType === 'string' ? '' : [['']];
 
         this.props.onChange(parameter);
-    }
+    };
 
     render() {
         return (

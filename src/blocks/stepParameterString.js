@@ -8,26 +8,6 @@ export default class StepParameterString extends React.Component {
             parameter: this.props.parameter,
             mode: 'read'
         };
-
-        this.switchToRead = this.switchToRead.bind(this);
-        this.switchToWrite = this.switchToWrite.bind(this);
-        this.handleValueChange = this.handleValueChange.bind(this);
-    }
-
-    switchToRead() {
-        if (this.props.featureMode === 'write') {
-            this.setState({mode: 'read'});
-        }
-    }
-
-    switchToWrite() {
-        if (this.props.featureMode === 'write') {
-            this.setState({mode: 'write'});
-        }
-    }
-
-    handleValueChange(e) {
-        this.props.onChange(e.target.value);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -35,6 +15,22 @@ export default class StepParameterString extends React.Component {
             this.setState({ parameter: nextProps.parameter });
         }
     }
+
+    switchToRead = () => {
+        if (this.props.featureMode === 'write') {
+            this.setState({mode: 'read'});
+        }
+    };
+
+    switchToWrite = () => {
+        if (this.props.featureMode === 'write') {
+            this.setState({mode: 'write'});
+        }
+    };
+
+    handleValueChange = (e) => {
+        this.props.onChange(e.target.value);
+    };
 
     render() {
         return (

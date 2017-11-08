@@ -13,15 +13,6 @@ export default class Scenario extends React.Component {
             scenario: this.props.scenario,
             mode: this.props.scenario.name ? 'read' : 'write'
         };
-
-        this.switchToRead = this.switchToRead.bind(this);
-        this.switchToWrite = this.switchToWrite.bind(this);
-        this.switchType = this.switchType.bind(this);
-        this.handleStepChange = this.handleStepChange.bind(this);
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleStepAdd = this.handleStepAdd.bind(this);
-        this.handleStepClose = this.handleStepClose.bind(this);
-        this.handleClose = this.handleClose.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -30,19 +21,19 @@ export default class Scenario extends React.Component {
         }
     }
 
-    switchToRead() {
+    switchToRead = () => {
         if (this.props.featureMode === 'write') {
             this.setState({mode: 'read'});
         }
-    }
+    };
 
-    switchToWrite() {
+    switchToWrite = () => {
         if (this.props.featureMode === 'write') {
             this.setState({mode: 'write'});
         }
-    }
+    };
 
-    switchType() {
+    switchType = () => {
         if (this.props.featureMode === 'write') {
             let scenario = this.state.scenario;
 
@@ -53,9 +44,9 @@ export default class Scenario extends React.Component {
                 key: this.props.id
             });
         }
-    }
+    };
 
-    handleStepChange(e) {
+    handleStepChange = (e) => {
         let scenario = this.state.scenario;
 
         scenario.steps[e.id] = e.step;
@@ -63,9 +54,9 @@ export default class Scenario extends React.Component {
             scenario,
             key: this.props.id
         });
-    }
+    };
 
-    handleNameChange(e) {
+    handleNameChange = (e) => {
         let scenario = this.state.scenario;
 
         scenario.name = e.target.value;
@@ -73,9 +64,9 @@ export default class Scenario extends React.Component {
             scenario,
             key: this.props.id
         });
-    }
+    };
 
-    handleStepAdd() {
+    handleStepAdd = () => {
         let scenario = this.state.scenario;
 
         scenario.steps.push({
@@ -86,9 +77,9 @@ export default class Scenario extends React.Component {
             scenario,
             key: this.props.id
         });
-    }
+    };
 
-    handleStepClose(stepId) {
+    handleStepClose = (stepId) => {
         let scenario = this.state.scenario;
 
         scenario.steps.splice(stepId, 1);
@@ -96,11 +87,11 @@ export default class Scenario extends React.Component {
             scenario,
             key: this.props.id
         });
-    }
+    };
 
-    handleClose() {
+    handleClose = () => {
         this.props.onClose(this.props.id);
-    }
+    };
 
     render() {
         return (

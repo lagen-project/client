@@ -12,15 +12,6 @@ export default class Step extends React.Component {
             sentenceMode: this.props.step.sentence !== '' ? 'read' : 'write',
             typeMode: 'read'
         };
-
-        this.handleClose = this.handleClose.bind(this);
-        this.handleParameterChange = this.handleParameterChange.bind(this);
-        this.handleParameterValueChange = this.handleParameterValueChange.bind(this);
-        this.handleRemoveParameter= this.handleRemoveParameter.bind(this);
-        this.handleSentenceChange = this.handleSentenceChange.bind(this);
-        this.handleTypeChange = this.handleTypeChange.bind(this);
-        this.switchSentenceToRead = this.switchSentenceToRead.bind(this);
-        this.switchSentenceToWrite = this.switchSentenceToWrite.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -29,19 +20,19 @@ export default class Step extends React.Component {
         }
     }
 
-    switchSentenceToRead() {
+    switchSentenceToRead = () => {
         if (this.props.featureMode === 'write') {
             this.setState({ sentenceMode: 'read' });
         }
-    }
+    };
 
-    switchSentenceToWrite() {
+    switchSentenceToWrite = () => {
         if (this.props.featureMode === 'write') {
             this.setState({sentenceMode: 'write'});
         }
-    }
+    };
 
-    handleSentenceChange(e) {
+    handleSentenceChange = (e) => {
         let step = this.state.step;
 
         step.sentence = e.target.value;
@@ -49,9 +40,9 @@ export default class Step extends React.Component {
             step,
             id: this.props.id
         });
-    }
+    };
 
-    handleTypeChange(e) {
+    handleTypeChange = (e) => {
         let step = this.state.step;
 
         step.type = e.target.value;
@@ -59,9 +50,9 @@ export default class Step extends React.Component {
             step,
             id: this.props.id
         });
-    }
+    };
 
-    handleParameterValueChange(newValue) {
+    handleParameterValueChange = (newValue) => {
         let step = this.state.step;
 
         step.parameter.value = newValue;
@@ -69,9 +60,9 @@ export default class Step extends React.Component {
             step,
             id: this.props.id
         });
-    }
+    };
 
-    handleParameterChange(newParameter) {
+    handleParameterChange = (newParameter) => {
         let step = this.state.step;
 
         step.parameter = newParameter;
@@ -79,9 +70,9 @@ export default class Step extends React.Component {
             step,
             id: this.props.id
         });
-    }
+    };
 
-    handleRemoveParameter() {
+    handleRemoveParameter = () => {
         let step = this.state.step;
 
         delete step.parameter;
@@ -90,13 +81,13 @@ export default class Step extends React.Component {
             step,
             id: this.props.id
         });
-    }
+    };
 
-    handleClose() {
+    handleClose = () => {
         this.props.onClose(this.props.id);
-    }
+    };
 
-    resolveStepClass() {
+    resolveStepClass = () => {
         if (!this.props.result) {
             return '';
         }
@@ -113,7 +104,7 @@ export default class Step extends React.Component {
             default:
                 return 'step--failure';
         }
-    }
+    };
 
     render() {
         return (

@@ -18,14 +18,6 @@ export default class FeaturePage extends React.Component {
             running: false,
             results: null
         };
-
-        this.handleScenarioAdd = this.handleScenarioAdd.bind(this);
-        this.handleScenarioChange = this.handleScenarioChange.bind(this);
-        this.handleScenarioClose = this.handleScenarioClose.bind(this);
-        this.toggleMode = this.toggleMode.bind(this);
-        this.saveFeature = this.saveFeature.bind(this);
-        this.stopAnimation = this.stopAnimation.bind(this);
-        this.runFeature = this.runFeature.bind(this);
     }
 
     componentWillMount() {
@@ -34,15 +26,15 @@ export default class FeaturePage extends React.Component {
             .then(feature => this.setState({ feature }));
     }
 
-    handleScenarioChange(e) {
+    handleScenarioChange = (e) => {
         let feature = this.state.feature;
 
         feature.scenarios[e.key] = e.scenario;
 
         this.setState({ feature });
-    }
+    };
 
-    handleScenarioAdd() {
+    handleScenarioAdd = () => {
         let feature = this.state.feature;
 
         feature.scenarios.push({
@@ -51,21 +43,21 @@ export default class FeaturePage extends React.Component {
             steps: []
         });
         this.setState({ feature });
-    }
+    };
 
-    handleScenarioClose(scenarioId) {
+    handleScenarioClose = (scenarioId) => {
         let feature = this.state.feature;
 
         feature.scenarios.splice(scenarioId, 1);
 
         this.setState({ feature });
-    }
+    };
 
-    toggleMode() {
+    toggleMode = () => {
         this.setState({mode: this.state.mode === 'read' ? 'write' : 'read'});
-    }
+    };
 
-    computeAvailableStepSentences() {
+    computeAvailableStepSentences = () => {
         if (!this.state.feature) {
             return [];
         }
@@ -81,9 +73,9 @@ export default class FeaturePage extends React.Component {
 
             return acc;
         }, []);
-    }
+    };
 
-    saveFeature() {
+    saveFeature = () => {
         FeatureModel
             .edit(
                 this.props.match.params.projectSlug,
@@ -95,20 +87,20 @@ export default class FeaturePage extends React.Component {
                 setTimeout(this.stopAnimation, 2000);
             })
         ;
-    }
+    };
 
-    runFeature() {
+    runFeature = () => {
         this.setState({running: true});
         FeatureModel
             .run(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
             .then(results => {
                 this.setState({running: false, results});
             });
-    }
+    };
 
-    stopAnimation() {
+    stopAnimation = () => {
         this.setState({ animate: null })
-    }
+    };
 
     render() {
         return this.state.feature === null ? null : (

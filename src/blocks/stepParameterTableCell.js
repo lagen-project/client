@@ -8,10 +8,6 @@ export default class StepParameterTableCell extends React.Component {
             value: this.props.value,
             mode: 'read'
         };
-
-        this.switchToRead = this.switchToRead.bind(this);
-        this.switchToWrite = this.switchToWrite.bind(this);
-        this.handleValueChange = this.handleValueChange.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -20,26 +16,26 @@ export default class StepParameterTableCell extends React.Component {
         }
     }
 
-    switchToRead() {
+    switchToRead = () => {
         if (this.props.featureMode === 'write') {
             this.setState({mode: 'read'});
         }
-    }
+    };
 
-    switchToWrite() {
+    switchToWrite = () => {
         if (this.props.featureMode === 'write') {
             this.setState({mode: 'write'});
         }
-    }
+    };
 
-    handleValueChange(e) {
+    handleValueChange = (e) => {
         this.setState({ value: e.target.value });
         this.props.onChange({
             row: this.props.row,
             column: this.props.column,
             value: e.target.value
         });
-    }
+    };
 
     render() {
         return (

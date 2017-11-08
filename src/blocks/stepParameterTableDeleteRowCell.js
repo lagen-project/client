@@ -1,15 +1,9 @@
 import React from 'react';
 
 export default class StepParameterTableDeleteRowCell extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick() {
+    handleClick = () => {
         this.props.onDeleteRow(this.props.row);
-    }
+    };
 
     render() {
         return (

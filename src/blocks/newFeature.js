@@ -8,29 +8,24 @@ export default class NewFeature extends React.Component {
             displayed: false,
             featureName: ''
         };
-
-        this.displayForm = this.displayForm.bind(this);
-        this.hideForm = this.hideForm.bind(this);
-        this.submitForm = this.submitForm.bind(this);
-        this.handleFeatureNameChange = this.handleFeatureNameChange.bind(this);
     }
 
-    displayForm() {
+    displayForm = () => {
         this.setState({ displayed: true });
-    }
+    };
 
-    hideForm() {
+    hideForm = () => {
         this.setState({ displayed: false });
-    }
+    };
 
-    submitForm() {
+    submitForm = () => {
         this.props.onSubmit(this.state.featureName);
         this.setState({ displayed: false });
-    }
+    };
 
-    handleFeatureNameChange(e) {
+    handleFeatureNameChange = (e) => {
         this.setState({ featureName: e.target.value });
-    }
+    };
 
     render() {
         return (

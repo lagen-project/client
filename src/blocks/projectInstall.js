@@ -11,9 +11,6 @@ export default class ProjectInstall extends React.Component {
             installing: false,
             output: ''
         };
-
-        this.install = this.install.bind(this);
-        this.installUpdate = this.installUpdate.bind(this);
     }
 
     componentDidUpdate() {
@@ -21,7 +18,7 @@ export default class ProjectInstall extends React.Component {
             document.getElementById("projectInstall-output").scrollHeight;
     }
 
-    installUpdate(e) {
+    installUpdate = (e) => {
         const xhr = e.currentTarget;
 
         if (xhr.readyState === XMLHttpRequest.LOADING) {
@@ -36,14 +33,14 @@ export default class ProjectInstall extends React.Component {
                 }));
             this.setState({ output: xhr.responseText, installing: false });
         }
-    }
+    };
 
-    install() {
+    install = () => {
         if (!this.state.installing) {
             this.setState({installing: true});
             ProjectModel.install(this.props.project.slug, this.installUpdate);
         }
-    }
+    };
 
     render() {
         return (

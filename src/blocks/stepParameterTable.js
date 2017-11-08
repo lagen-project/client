@@ -11,12 +11,6 @@ export default class StepParameterTable extends React.Component {
         this.state = {
             parameter: this.props.parameter
         };
-
-        this.handleCellChange = this.handleCellChange.bind(this);
-        this.handleColumnAdd = this.handleColumnAdd.bind(this);
-        this.handleRowAdd = this.handleRowAdd.bind(this);
-        this.handleColumnDelete = this.handleColumnDelete.bind(this);
-        this.handleRowDelete = this.handleRowDelete.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -25,14 +19,14 @@ export default class StepParameterTable extends React.Component {
         }
     }
 
-    handleCellChange(e) {
+    handleCellChange = (e) => {
         let parameterValue = this.state.parameter.value;
 
         parameterValue[e.row][e.column] = e.value;
         this.props.onChange(parameterValue);
-    }
+    };
 
-    handleColumnAdd() {
+    handleColumnAdd = () => {
         let parameterValue = this.state.parameter.value;
 
         parameterValue = parameterValue.map(row => {
@@ -42,9 +36,9 @@ export default class StepParameterTable extends React.Component {
         });
 
         this.props.onChange(parameterValue);
-    }
+    };
 
-    handleColumnDelete(columnId) {
+    handleColumnDelete = (columnId) => {
         let parameterValue = this.state.parameter.value;
 
         parameterValue = parameterValue.map(row => {
@@ -54,9 +48,9 @@ export default class StepParameterTable extends React.Component {
         });
 
         this.props.onChange(parameterValue);
-    }
+    };
 
-    handleRowAdd() {
+    handleRowAdd = () => {
         let parameterValue = this.state.parameter.value;
         let newRow = [];
 
@@ -66,15 +60,15 @@ export default class StepParameterTable extends React.Component {
         parameterValue.push(newRow);
 
         this.props.onChange(parameterValue);
-    }
+    };
 
-    handleRowDelete(rowId) {
+    handleRowDelete = (rowId) => {
         let parameterValue = this.state.parameter.value;
 
         parameterValue.splice(rowId, 1);
 
         this.props.onChange(parameterValue);
-    }
+    };
 
     render() {
         const nbRows = this.state.parameter.value.length;

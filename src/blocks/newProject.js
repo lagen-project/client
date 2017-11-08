@@ -8,29 +8,24 @@ export default class NewProject extends React.Component {
             displayed: false,
             projectName: ''
         };
-
-        this.displayForm = this.displayForm.bind(this);
-        this.hideForm = this.hideForm.bind(this);
-        this.submitForm = this.submitForm.bind(this);
-        this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
     }
 
-    displayForm() {
+    displayForm = () => {
         this.setState({ displayed: true });
-    }
+    };
 
-    hideForm() {
+    hideForm = () => {
         this.setState({ displayed: false });
-    }
+    };
 
-    submitForm() {
+    submitForm = () => {
         this.props.onSubmit(this.state.projectName);
         this.setState({ displayed: false });
-    }
+    };
 
-    handleProjectNameChange(e) {
+    handleProjectNameChange = (e) => {
         this.setState({ projectName: e.target.value });
-    }
+    };
 
     render() {
         return (
