@@ -33,7 +33,8 @@ export default class ProjectGitRepository extends React.Component {
     submitForm = () => {
         ProjectModel.edit({
             slug: this.props.project.slug,
-            gitRepository: this.state.projectGitRepository
+            gitRepository: this.state.projectGitRepository,
+            gitBranch: this.state.projectGitBranch
         }).then(() => {
             this.setState({ displayed: false });
         });
