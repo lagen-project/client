@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CloseButton from './closeButton';
+import Examples from './examples';
 import PlusButton from './plusButton';
 import ScenarioTypeButton from './scenarioTypeButton';
 import Step from './step';
@@ -133,6 +134,7 @@ export default class Scenario extends React.Component {
                 {this.props.featureMode === 'write' ? (
                     <PlusButton onClick={this.handleStepAdd} />
                 ) : null}
+                <Examples steps={this.state.scenario.steps} />
             </div>
         );
     }

@@ -49,7 +49,8 @@ export default class FeaturePage extends React.Component {
         feature.scenarios.push({
             name: '',
             type: 'regular',
-            steps: []
+            steps: [],
+            examples: []
         });
         this.setState({ feature });
     };

@@ -16,14 +16,14 @@
     "font-awesome": "^4.7.0",
     "knacss": "^6.1.0",
     "less": "^2.7.2",
+    "lodash": "^4.17.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-select": "^1.0.0-rc.3",
-    "uglify-js": "^3.0.18",
-    "uglifycss": "0.0.27",
-    "uglifyjs": "^2.4.11"
+    "uglify-es": "^3.1.8",
+    "uglifycss": "0.0.27"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
