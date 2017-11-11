@@ -90,6 +90,14 @@ export default class Scenario extends React.Component {
         });
     };
 
+    handleExamplesChange = (examples) => {
+        let scenario = this.state.scenario;
+
+        scenario.examples = examples;
+
+        this.setState({ scenario });
+    };
+
     handleClose = () => {
         this.props.onClose(this.props.id);
     };
@@ -134,7 +142,12 @@ export default class Scenario extends React.Component {
                 {this.props.featureMode === 'write' ? (
                     <PlusButton onClick={this.handleStepAdd} />
                 ) : null}
-                <Examples steps={this.state.scenario.steps} />
+                <Examples
+                    steps={this.state.scenario.steps}
+                    examples={this.state.scenario.examples}
+                    featureMode={this.props.featureMode}
+                    onChange={this.handleExamplesChange}
+                />
             </div>
         );
     }
