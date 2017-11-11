@@ -83,6 +83,7 @@ export default class Scenario extends React.Component {
     render() {
         return this.state.parameters.length ? (
             <div className="examples">
+                <h3>Examples</h3>
                 <table>
                     <thead>
                         <tr>
