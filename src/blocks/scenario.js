@@ -136,7 +136,7 @@ export default class Scenario extends React.Component {
                         onChange={this.handleStepChange}
                         onClose={this.handleStepClose}
                         featureMode={this.props.featureMode}
-                        result={this.props.result ? this.props.result[id] : null}
+                        result={this.props.result && this.state.scenario.examples.length === 0 ? this.props.result[id] : null}
                     />
                 ))}
                 {this.props.featureMode === 'write' ? (
