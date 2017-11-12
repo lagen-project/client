@@ -147,6 +147,7 @@ export default class Scenario extends React.Component {
                     examples={this.state.scenario.examples}
                     featureMode={this.props.featureMode}
                     onChange={this.handleExamplesChange}
+                    result={this.props.result ? this.props.result : null}
                 />
             </div>
         );

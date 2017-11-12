@@ -4,12 +4,12 @@ import React from 'react';
 import ExamplesCell from './examplesCell';
 import ExamplesDeleteRowCell from './examplesDeleteRowCell';
 
-export default class Scenario extends React.Component {
+export default class Examples extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            parameters: []
+            parameters: this.getParameters(this.props.steps)
         };
     }
 
@@ -99,12 +99,14 @@ export default class Scenario extends React.Component {
                                 {this.props.featureMode === 'write' ?
                                     <ExamplesDeleteRowCell onDeleteRow={this.handleRowDelete} row={row} />
                                 : null}
-                                {this.state.parameters.map((param, i) => <ExamplesCell
-                                    key={i}
+                                {this.state.parameters.map((param, column) => <ExamplesCell
+                                    key={column}
                                     row={row}
                                     parameter={param}
                                     value={example[param]}
                                     featureMode={this.props.featureMode}
+                                    result={this.props.result ?
+                                        this.props.result[this.state.parameters.length * row + column] : null}
                                     onChange={this.handleExampleChange}
                                 />)}
                             </tr>
