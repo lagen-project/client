@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 
 import Description from '../blocks/description';
 import FeatureModeButton from '../blocks/featureModeButton';
@@ -6,6 +7,7 @@ import FeatureModel from '../models/featureModel';
 import FeatureRunButton from '../blocks/featureRunButton';
 import FeatureSaveButton from '../blocks/featureSaveButton';
 import PlusButton from '../blocks/plusButton';
+import ProjectModel from '../models/projectModel';
 import Scenario from '../blocks/scenario';
 
 export default class FeaturePage extends React.Component {
@@ -17,7 +19,8 @@ export default class FeaturePage extends React.Component {
             mode: 'read',
             animate: null,
             running: false,
-            results: null
+            results: null,
+            projectSteps: []
         };
     }
 
@@ -25,6 +28,9 @@ export default class FeaturePage extends React.Component {
         FeatureModel
             .read(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
             .then(feature => this.setState({ feature }));
+        ProjectModel
+            .steps(this.props.match.params.projectSlug)
+            .then(steps => { this.setState({ projectSteps: steps }); });
     }
 
     handleDescriptionChange = (description) => {
@@ -72,17 +78,16 @@ export default class FeaturePage extends React.Component {
             return [];
         }
 
-        return this.state.feature.scenarios.map(scenario => {
-            return scenario.steps.map(step => step.sentence);
-        }).reduce((acc, sentencesBatch) => {
-            sentencesBatch.forEach(sentence => {
-                if (!acc.includes(sentence)) {
-                    acc.push(sentence);
-                }
-            });
-
-            return acc;
-        }, []);
+        return _.uniq(_.flatten(this
+            .state
+            .feature
+            .scenarios
+            .map(scenario => {
+                return scenario.steps.map(step => step.sentence);
+            }))
+            .concat(this.state.projectSteps)
+            .sort())
+        ;
     };
 
     saveFeature = () => {

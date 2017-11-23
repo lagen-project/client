@@ -23,4 +23,8 @@ export default new class ProjectModel extends RestModel {
     gitInfo(id) {
         return fetch(`${config.api}/${this.resourceName}/${id}/git`).then(response => response.json());
     }
+
+    steps(id) {
+        return fetch(`${config.api}/${this.resourceName}/${id}/steps`).then(response => response.json());
+    }
 };
