@@ -1,0 +1,26 @@
+@import "../colors";
+
+.login {
+    width: 500px;
+    max-width: 100%;
+
+    .login-submit {
+        margin-top: 10px;
+        text-align: center;
+        text-transform: uppercase;
+        padding: 10px;
+        width: 100%;
+        background: @color_action;
+        color: @color_text_on_action;
+        border: none;
+
+        &:hover {
+            cursor: pointer;
+            background: @color_action_hover;
+        }
+
+        &.login-submit--failed {
+            background: red;
+        }
+    }
+}

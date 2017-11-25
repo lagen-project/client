@@ -17,16 +17,25 @@ export default class IndexPage extends React.Component {
         this.listProjects();
     }
 
+    handleNetworkError = (e) => {
+        if (e === 401) {
+            window.location = '/login';
+        }
+    };
+
     addProject = (projectName) => {
         ProjectModel.create({
             name: projectName
-        }).then(() => this.listProjects());
+        }).then(
+            () => this.listProjects(),
+            this.handleNetworkError
+        );
     };
 
     listProjects = () => {
         ProjectModel.list().then(projects => {
             this.setState({ projects });
-        });
+        }, this.handleNetworkError);
     };
 
     render() {
