@@ -7,46 +7,51 @@ export default class RestModel {
         this.config = config;
     }
 
-    create(resource) {
-        return fetch(
-            `${config.api}/${this.resourceName}`,
-            {
-                method: 'POST',
-                body: JSON.stringify(resource),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+    get(uri) {
+        return fetch(`${config.api}/${uri}`).then(response => response.json());
+    }
+
+    post(uri, body) {
+        return fetch(`${config.api}/${uri}`, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
             }
-        ).then(response => response.json());
+        }).then(response => response.json());
+    }
+
+    put(uri, body) {
+        return fetch(`${config.api}/${uri}`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json());
+    }
+
+    del(uri) {
+        return fetch(`${config.api}/${uri}`, { method: 'DELETE' }).then(response => response.json());
+    }
+
+    create(resource) {
+        return this.post(this.resourceName, resource);
     }
 
     edit(resource) {
-        return fetch(
-            `${config.api}/${this.resourceName}/${resource.slug}`,
-            {
-                method: 'PUT',
-                body: JSON.stringify(resource),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        ).then(response => response.json());
+        return this.put(`${this.resourceName}/${resource.slug}`, resource);
     }
 
     list() {
-        return fetch(`${config.api}/${this.resourceName}`).then(response => response.json());
+        return this.get(this.resourceName);
     }
 
     read(id) {
-        return fetch(`${config.api}/${this.resourceName}/${id}`).then(response => response.json());
+        return this.get(`${this.resourceName}/${id}`);
     }
 
     remove(id) {
-        return fetch(
-            `${config.api}/${this.resourceName}/${id}`,
-            {
-                method: 'DELETE',
-            }
-        );
+        return this.del(`${this.resourceName}/${id}`);
     }
 };
