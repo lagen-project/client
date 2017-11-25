@@ -4,35 +4,33 @@ import config from '../config.json';
 
 export default class RestModel {
     constructor() {
-        this.config = config;
+        this.token = null;
+    }
+
+    fetch(uri, method, body) {
+        return fetch(`${config.api}/${uri}`, {
+            method,
+            body: body ? JSON.stringify(body) : null,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json());
     }
 
     get(uri) {
-        return fetch(`${config.api}/${uri}`).then(response => response.json());
+        return this.fetch(uri, 'GET');
     }
 
     post(uri, body) {
-        return fetch(`${config.api}/${uri}`, {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(response => response.json());
+        return this.fetch(uri, 'POST', body);
     }
 
     put(uri, body) {
-        return fetch(`${config.api}/${uri}`, {
-            method: 'PUT',
-            body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(response => response.json());
+        return this.fetch(uri, 'PUT', body);
     }
 
     del(uri) {
-        return fetch(`${config.api}/${uri}`, { method: 'DELETE' }).then(response => response.json());
+        return this.fetch(uri, 'DELETE');
     }
 
     create(resource) {
