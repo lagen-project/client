@@ -1,5 +1,6 @@
 import React from 'react';
 
+import NetworkErrorHandler from '../handlers/networkErrorHandler';
 import ProjectModel from '../models/projectModel';
 
 export default class ProjectGitRepository extends React.Component {
@@ -37,7 +38,7 @@ export default class ProjectGitRepository extends React.Component {
             gitBranch: this.state.projectGitBranch
         }).then(() => {
             this.setState({ displayed: false });
-        });
+        }, NetworkErrorHandler.handle);
     };
 
     handleProjectGitRepositoryChange = (e) => {

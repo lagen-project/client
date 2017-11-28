@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import NetworkErrorHandler from "../handlers/networkErrorHandler";
 import NewProject from "../blocks/newProject";
 import ProjectModel from "../models/projectModel";
 
@@ -17,25 +18,19 @@ export default class IndexPage extends React.Component {
         this.listProjects();
     }
 
-    handleNetworkError = (e) => {
-        if (e === 401) {
-            window.location = '/login';
-        }
-    };
-
     addProject = (projectName) => {
         ProjectModel.create({
             name: projectName
         }).then(
             () => this.listProjects(),
-            this.handleNetworkError
+            NetworkErrorHandler.handle
         );
     };
 
     listProjects = () => {
         ProjectModel.list().then(projects => {
             this.setState({ projects });
-        }, this.handleNetworkError);
+        }, NetworkErrorHandler.handle);
     };
 
     render() {

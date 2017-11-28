@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import FeatureModel from '../models/featureModel';
+import NetworkErrorHandler from "../handlers/networkErrorHandler";
 import NewFeature from '../blocks/newFeature';
 import ProjectGitRepository from '../blocks/projectGitRepository';
 import ProjectInstall from '../blocks/projectInstall';
@@ -23,13 +24,13 @@ export default class ProjectPage extends React.Component {
     readProject = () => {
         ProjectModel.read(this.props.match.params.projectSlug).then(project => {
             this.setState({ project });
-        });
+        }, NetworkErrorHandler.handle);
     };
 
     addFeature = (featureName) => {
         FeatureModel.create(this.props.match.params.projectSlug, {
             name: featureName
-        }).then(() => this.readProject());
+        }).then(() => this.readProject(), NetworkErrorHandler.handle);
     };
 
     render() {

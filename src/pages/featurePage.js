@@ -6,6 +6,7 @@ import FeatureModeButton from '../blocks/featureModeButton';
 import FeatureModel from '../models/featureModel';
 import FeatureRunButton from '../blocks/featureRunButton';
 import FeatureSaveButton from '../blocks/featureSaveButton';
+import NetworkErrorHandler from '../handlers/networkErrorHandler';
 import PlusButton from '../blocks/plusButton';
 import ProjectModel from '../models/projectModel';
 import Scenario from '../blocks/scenario';
@@ -27,10 +28,10 @@ export default class FeaturePage extends React.Component {
     componentWillMount() {
         FeatureModel
             .read(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
-            .then(feature => this.setState({ feature }));
+            .then(feature => this.setState({ feature }), NetworkErrorHandler.handle);
         ProjectModel
             .steps(this.props.match.params.projectSlug)
-            .then(steps => { this.setState({ projectSteps: steps }); });
+            .then(steps => { this.setState({ projectSteps: steps }); }, NetworkErrorHandler.handle);
     }
 
     handleDescriptionChange = (description) => {
@@ -100,7 +101,7 @@ export default class FeaturePage extends React.Component {
             .then(() => {
                 this.setState({ animate: 'success' });
                 setTimeout(this.stopAnimation, 2000);
-            })
+            }, NetworkErrorHandler.handle)
         ;
     };
 
@@ -110,7 +111,7 @@ export default class FeaturePage extends React.Component {
             .run(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
             .then(results => {
                 this.setState({running: false, results});
-            });
+            }, NetworkErrorHandler.handle);
     };
 
     stopAnimation = () => {

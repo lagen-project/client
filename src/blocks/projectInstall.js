@@ -1,5 +1,6 @@
 import React from 'react';
 
+import NetworkErrorHandler from '../handlers/networkErrorHandler';
 import ProjectModel from '../models/projectModel';
 
 export default class ProjectInstall extends React.Component {
@@ -30,7 +31,7 @@ export default class ProjectInstall extends React.Component {
                     gitInfo,
                     installing: false,
                     output: xhr.responseText
-                }));
+                }), NetworkErrorHandler.handle);
             this.setState({ output: xhr.responseText, installing: false });
         }
     };
