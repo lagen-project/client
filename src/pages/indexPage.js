@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -38,15 +39,17 @@ export default class IndexPage extends React.Component {
             <div className="page indexPage">
                 <h1>Projects</h1>
 
-                <div className="grid txtcenter has-gutter">
-                    {this.state.projects.map((project, key) => (
-                        <div className="one-quarter" key={key}>
-                            <Link to={`/project/${project.slug}`} className="indexPage-link">
-                                {project.name}
-                            </Link>
-                        </div>
-                    ))}
-                </div>
+                {_.chunk(this.state.projects, 4).map((chunk, chunkKey) =>
+                    <div key={chunkKey} className="grid txtcenter has-gutter">
+                        {chunk.map((project, key) => (
+                            <div className="one-quarter" key={key}>
+                                <Link to={`/project/${project.slug}`} className="indexPage-link">
+                                    {project.name}
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                )}
                 <NewProject onSubmit={this.addProject} />
             </div>
         );

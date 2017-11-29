@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -44,20 +45,22 @@ export default class ProjectPage extends React.Component {
                     <ProjectInstall project={this.state.project} />
                 </div>
 
-                <div className="grid txtcenter has-gutter">
-                    {this.state.project.features.map((feature, key) => {
-                        return (
-                            <div className="one-quarter" key={key}>
-                                <Link
-                                    to={`/project/${this.props.match.params.projectSlug}/feature/${feature.slug}`}
-                                    className="projectPage-link"
-                                >
-                                    {feature.name}
-                                </Link>
-                            </div>
-                        )
-                    })}
-                </div>
+                {_.chunk(this.state.project.features, 4).map((chunk, chunkKey) =>
+                    <div className="grid txtcenter has-gutter" key={chunkKey}>
+                        {chunk.map((feature, key) => {
+                            return (
+                                <div className="one-quarter" key={key}>
+                                    <Link
+                                        to={`/project/${this.props.match.params.projectSlug}/feature/${feature.slug}`}
+                                        className="projectPage-link"
+                                    >
+                                        {feature.name}
+                                    </Link>
+                                </div>
+                            )
+                        })}
+                    </div>
+                )}
                 <NewFeature onSubmit={this.addFeature} />
             </div>
         );
