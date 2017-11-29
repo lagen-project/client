@@ -17,10 +17,15 @@ export default class App extends React.Component {
         this.setState({ loggedIn: true });
     };
 
+    handleLogout = () => {
+        localStorage.removeItem('token');
+        this.setState({ loggedIn: false });
+    };
+
     render() {
         return (
             <div className="container">
-                <Menu />
+                <Menu loggedIn={this.state.loggedIn} onLogout={this.handleLogout} />
                 {this.state.loggedIn ? <Routes /> : <Login onLoginSuccess={this.handleLoginSuccess} />}
             </div>
         );

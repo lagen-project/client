@@ -1,21 +1,49 @@
 .menu {
-  background: @color_action;
-  color: white;
-  list-style-type: none;
-  padding: 0;
+    background: @color_action;
+    color: white;
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
 
-  li {
-    height: 100%;
-    display: inline-block;
-    a {
-      padding: 15px;
-      color: white;
-      text-decoration: none;
-      height: 100%;
-      display: block;
-      &:hover {
-        background: @color_action_hover;
-      }
+    li {
+        height: 100%;
+
+        &.menu-auto {
+            flex: auto;
+        }
+
+        &.menu-initial {
+            flex: initial;
+        }
+
+        a {
+            padding: 7px;
+            color: white;
+            text-decoration: none;
+            height: 100%;
+            display: block;
+            &:hover {
+                background: wheat;
+                color: @color_action;
+                svg {
+                    path {
+                        fill: @color_action;
+                    }
+                }
+            }
+        }
+
+        button {
+            background: @color_action;
+            color: wheat;
+            border: none;
+
+            &:hover {
+                background: wheat;
+                color: @color_action;
+                cursor: pointer;
+            }
+        }
     }
-  }
 }
