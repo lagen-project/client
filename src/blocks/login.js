@@ -13,6 +13,12 @@ export default class Login extends React.Component {
         };
     }
 
+    componentWillMount() {
+        if (localStorage.getItem('token')) {
+            this.props.onLoginSuccess();
+        }
+    }
+
     handleUsernameChange = (e) => {
         this.setState({ username: e.target.value });
     };
