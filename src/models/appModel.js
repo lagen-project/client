@@ -23,4 +23,8 @@ export default new class AppModel extends Model {
             });
         });
     }
+
+    me() {
+        return this.get('me');
+    }
 };
