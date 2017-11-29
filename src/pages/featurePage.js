@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
+import Breadcrumb from '../blocks/breadcrumb';
 import Description from '../blocks/description';
 import FeatureModeButton from '../blocks/featureModeButton';
 import FeatureModel from '../models/featureModel';
@@ -21,6 +22,7 @@ export default class FeaturePage extends React.Component {
             animate: null,
             running: false,
             results: null,
+            project: '',
             projectSteps: []
         };
     }
@@ -29,6 +31,9 @@ export default class FeaturePage extends React.Component {
         FeatureModel
             .read(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
             .then(feature => this.setState({ feature }), NetworkErrorHandler.handle);
+        ProjectModel
+            .read(this.props.match.params.projectSlug)
+            .then(project => { this.setState({ project }); }, NetworkErrorHandler.handle);
         ProjectModel
             .steps(this.props.match.params.projectSlug)
             .then(steps => { this.setState({ projectSteps: steps }); }, NetworkErrorHandler.handle);
@@ -122,6 +127,18 @@ export default class FeaturePage extends React.Component {
         return this.state.feature === null ? null : (
             <div className={`page featurePage featurePage--${this.state.mode}`}>
                 <h1>{`Feature "${this.state.feature.name}"`}</h1>
+
+                <Breadcrumb routes={[
+                    {label: 'Projects', link: '/'},
+                    {
+                        label: this.state.project ? this.state.project.name : '',
+                        link: this.state.project ? `/project/${this.state.project.slug}` : ''
+                    },
+                    {
+                        label: this.state.feature.name
+                    }
+                ]}/>
+
                 <FeatureModeButton mode={this.state.mode} onClick={this.toggleMode} />
                 <FeatureSaveButton animate={this.state.animate} onClick={this.saveFeature} />
                 {this.state.feature.runnable ? <FeatureRunButton animate={this.state.running} onClick={this.runFeature} /> : null}

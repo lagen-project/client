@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Breadcrumb from '../blocks/breadcrumb';
 import FeatureModel from '../models/featureModel';
 import NetworkErrorHandler from "../handlers/networkErrorHandler";
 import NewFeature from '../blocks/newFeature';
@@ -38,6 +39,12 @@ export default class ProjectPage extends React.Component {
         return this.state.project === null ? null : (
             <div className="page projectPage">
                 <h1>{this.state.project.name}</h1>
+
+                <Breadcrumb routes={[
+                    {label: 'Projects', link: '/'},
+                    {label: this.state.project ? this.state.project.name : ''}
+                ]}/>
+
                 <div className="projectPage-intro">
                     <ProjectGitRepository
                         project={this.state.project}

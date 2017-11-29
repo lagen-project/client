@@ -1,0 +1,23 @@
+.breadcrumb {
+    background: #EEE;
+    padding: 5px;
+    font-size: 0.8em;
+    margin: 20px 0;
+
+    .breadcrumb-item {
+        display: inline-block;
+        margin: 0 5px;
+        color: gray;
+
+        + .breadcrumb-item {
+            &:before {
+                content: "➤";
+                padding-right: 10px;
+            }
+        }
+    }
+
+    a {
+        color: gray;
+    }
+}
