@@ -14,9 +14,17 @@ export default class Menu extends React.Component {
         };
     }
 
-    componentWillUpdate() {
-        AppModel.me().then(user => this.setState({ username: user.username }), NetworkErrorHandler.handle);
+    componentDidMount() {
+        if (this.props.loggedIn) {
+            AppModel.me().then(user => this.setState({username: user.username}), NetworkErrorHandler.handle);
+        }
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.loggedIn) {
+            AppModel.me().then(user => this.setState({username: user.username}), NetworkErrorHandler.handle);
+        }
+    };
 
     handleLogout = (e) => {
         e.preventDefault();
