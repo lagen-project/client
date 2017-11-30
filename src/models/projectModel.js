@@ -15,6 +15,7 @@ export default new class ProjectModel extends RestModel {
 
         xhr.onreadystatechange = onReadyStateChange;
         xhr.open('GET', `${config.api}/${this.resourceName}/${id}/install`, true);
+        xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
         xhr.send();
 
         return xhr;
