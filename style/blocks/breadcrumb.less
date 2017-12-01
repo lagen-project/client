@@ -1,20 +1,19 @@
 @import "../colors";
 
 .breadcrumb {
-    background: @color_breadcrumb;
-    padding: 5px;
+    padding: 1.5px;
     font-size: 0.8em;
-    margin: 20px 0;
+    margin-bottom: 20px;
 
     .breadcrumb-item {
         display: inline-block;
-        margin: 0 5px;
+        margin: 0 1.5px;
         color: gray;
 
         + .breadcrumb-item {
             &:before {
-                content: "➤";
-                padding-right: 10px;
+                content: "/";
+                padding-right: 3px;
             }
         }
     }

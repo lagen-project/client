@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Breadcrumb from '../blocks/breadcrumb';
 import NetworkErrorHandler from "../handlers/networkErrorHandler";
 import NewProject from "../blocks/newProject";
 import ProjectModel from "../models/projectModel";
@@ -40,12 +39,8 @@ export default class IndexPage extends React.Component {
             <div className="page indexPage">
                 <h1>Projects</h1>
 
-                <Breadcrumb routes={[
-                    {label: 'Projects'}
-                ]}/>
-
                 {_.chunk(this.state.projects, 4).map((chunk, chunkKey) =>
-                    <div key={chunkKey} className="grid txtcenter has-gutter">
+                    <div key={chunkKey} className="grid txtcenter has-gutter indexPage-row">
                         {chunk.map((project, key) => (
                             <div className="one-quarter" key={key}>
                                 <Link to={`/project/${project.slug}`} className="indexPage-link">
