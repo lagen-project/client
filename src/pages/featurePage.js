@@ -10,6 +10,7 @@ import FeatureSaveButton from '../blocks/featureSaveButton';
 import NetworkErrorHandler from '../handlers/networkErrorHandler';
 import PlusButton from '../blocks/plusButton';
 import ProjectModel from '../models/projectModel';
+import ResultsButton from '../blocks/resultsButton';
 import Scenario from '../blocks/scenario';
 
 export default class FeaturePage extends React.Component {
@@ -79,6 +80,14 @@ export default class FeaturePage extends React.Component {
         this.setState({mode: this.state.mode === 'read' ? 'write' : 'read'});
     };
 
+    handleResultsButtonClick = (e) => {
+        e.preventDefault();
+
+        if (this.state.results) {
+            this.setState({ results: null });
+        }
+    };
+
     computeAvailableStepSentences = () => {
         if (!this.state.feature) {
             return [];
@@ -142,6 +151,7 @@ export default class FeaturePage extends React.Component {
                 <FeatureModeButton mode={this.state.mode} onClick={this.toggleMode} />
                 <FeatureSaveButton animate={this.state.animate} onClick={this.saveFeature} />
                 {this.state.feature.runnable ? <FeatureRunButton animate={this.state.running} onClick={this.runFeature} /> : null}
+                <ResultsButton onClick={this.handleResultsButtonClick} active={this.state.results !== null} />
 
                 <Description value={this.state.feature.description} onChange={this.handleDescriptionChange} />
                 {this.state.feature.scenarios.map((scenario, id) => (

@@ -1,3 +1,5 @@
+@import "../colors";
+
 .step {
     margin-top: 15px;
     background: rgba(255, 255, 255, 0.2);
@@ -33,15 +35,15 @@
     }
 
     &.step--success {
-        background: #dff0d8;
+        background: @color_success;
     }
 
     &.step--undefined {
-        background: #fcf8e3;
+        background: @color_undefined;
     }
 
     &.step--failure {
-        background: #f2acac;
+        background: @color_failure;
     }
 
     &.step--skipped {
