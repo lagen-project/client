@@ -7,6 +7,7 @@ export default class ProjectInstall extends React.Component {
     constructor(props) {
         super(props);
 
+        this.interval = null;
         this.state = {
             gitInfo: this.props.project.gitInfo,
             installing: false,
@@ -15,31 +16,45 @@ export default class ProjectInstall extends React.Component {
     }
 
     componentDidUpdate() {
-        document.getElementById("projectInstall-output").scrollTop =
-            document.getElementById("projectInstall-output").scrollHeight;
+        const textarea = document.getElementById("projectInstall-output");
+
+        textarea.scrollTop = textarea.scrollHeight;
     }
 
-    installUpdate = (e) => {
-        const xhr = e.currentTarget;
-
-        if (xhr.readyState === XMLHttpRequest.LOADING) {
-            this.setState({ output: xhr.responseText });
-        } else if (xhr.readyState === XMLHttpRequest.DONE) {
-            ProjectModel
-                .gitInfo(this.props.project.slug)
-                .then(gitInfo => this.setState({
-                    gitInfo,
-                    installing: false,
-                    output: xhr.responseText
-                }), NetworkErrorHandler.handle);
-            this.setState({ output: xhr.responseText, installing: false });
-        }
+    updateInstall = () => {
+        ProjectModel
+            .installStatus(this.props.project.slug)
+            .then((result) => {
+                if (['ongoing', 'pending'].indexOf(result.status) === -1) {
+                    this.setState({ installing: false });
+                    if (this.interval !== null) {
+                        clearInterval(this.interval);
+                        this.interval = null;
+                        if (result.status !== 'none') {
+                            ProjectModel
+                                .gitInfo(this.props.project.slug)
+                                .then(gitInfo => {
+                                    this.setState({gitInfo});
+                                })
+                        }
+                    }
+                } else {
+                    this.setState({ installing: true, output: result.result });
+                }
+            })
+        ;
     };
 
     install = () => {
         if (!this.state.installing) {
             this.setState({installing: true});
-            ProjectModel.install(this.props.project.slug, this.installUpdate);
+            ProjectModel
+                .install(this.props.project.slug)
+                .then(() => {
+                    this.updateInstall();
+                    this.interval = setInterval(this.updateInstall, 3000);
+                })
+            ;
         }
     };
 

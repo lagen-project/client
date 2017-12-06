@@ -10,7 +10,7 @@ export default new class AppModel extends Model {
         data.append('_username', username);
         data.append('_password', password);
 
-        return fetch(`${config.api}/login_check`, {
+        return fetch(`${config.api}/login`, {
             method: 'POST',
             body: data
         }).then(response => {

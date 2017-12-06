@@ -1,6 +1,5 @@
 import React from 'react';
 
-import config from '../config.json';
 import RestModel from './restModel';
 
 export default new class ProjectModel extends RestModel {
@@ -10,15 +9,12 @@ export default new class ProjectModel extends RestModel {
         this.resourceName = 'projects';
     }
 
-    install(id, onReadyStateChange) {
-        let xhr = new XMLHttpRequest();
+    install(id) {
+        return this.get(`${this.resourceName}/${id}/install`);
+    }
 
-        xhr.onreadystatechange = onReadyStateChange;
-        xhr.open('GET', `${config.api}/${this.resourceName}/${id}/install`, true);
-        xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
-        xhr.send();
-
-        return xhr;
+    installStatus(id) {
+        return this.get(`${this.resourceName}/${id}/install-status`);
     }
 
     gitInfo(id) {
