@@ -41,7 +41,7 @@ export default class ProjectInstall extends React.Component {
                 } else {
                     this.setState({ installing: true, output: result.result });
                 }
-            })
+            }, NetworkErrorHandler.handle)
         ;
     };
 
