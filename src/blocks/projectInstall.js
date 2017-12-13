@@ -71,7 +71,7 @@ export default class ProjectInstall extends React.Component {
                             title={this.state.installing ? 'Installing' : 'Install'}
                         > </i>
                     </div>
-                    {this.state.gitInfo ? (
+                    {this.state.gitInfo.length > 0 ? (
                         <div className="projectInstall-info">
                             <span className="projectInstall-commitDate">{this.state.gitInfo.date}</span>
                             <span className="projectInstall-commitAuthor">{this.state.gitInfo.author}</span>
