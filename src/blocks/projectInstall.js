@@ -15,10 +15,21 @@ export default class ProjectInstall extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.updateInstall();
+    }
+
     componentDidUpdate() {
         const textarea = document.getElementById("projectInstall-output");
 
         textarea.scrollTop = textarea.scrollHeight;
+    }
+
+    componentWillUnmount() {
+        if (this.interval !== null) {
+            clearInterval(this.interval);
+            this.interval = null;
+        }
     }
 
     updateInstall = () => {
@@ -40,6 +51,9 @@ export default class ProjectInstall extends React.Component {
                     }
                 } else {
                     this.setState({ installing: true, output: result.result });
+                    if (this.interval === null) {
+                        this.interval = setInterval(this.updateInstall, 3000);
+                    }
                 }
             }, NetworkErrorHandler.handle)
         ;
@@ -71,7 +85,7 @@ export default class ProjectInstall extends React.Component {
                             title={this.state.installing ? 'Installing' : 'Install'}
                         > </i>
                     </div>
-                    {this.state.gitInfo.length > 0 ? (
+                    {this.state.gitInfo.hasOwnProperty('commit') ? (
                         <div className="projectInstall-info">
                             <span className="projectInstall-commitDate">{this.state.gitInfo.date}</span>
                             <span className="projectInstall-commitAuthor">{this.state.gitInfo.author}</span>
