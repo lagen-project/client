@@ -79,7 +79,10 @@ export default class ProjectGitRepository extends React.Component {
                     </div>
                 ) : (
                     <div className="projectGitRepository-name">
-                        {this.state.projectGitRepository} ({this.state.projectGitBranch})
+                        {this.state.projectGitRepository ?
+                            `${this.state.projectGitRepository} (${this.state.projectGitBranch})`
+                            : null
+                        }
                     </div>
                 )}
             </div>
