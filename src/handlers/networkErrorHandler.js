@@ -1,10 +1,12 @@
 import React from 'react';
 
 export default new class NetworkErrorHandler {
-    handle  = (e) => {
-        if (e === 401) {
+    handle  = (r, errorHandler = () => {}) => {
+        if (r.status === 401) {
             localStorage.removeItem('token');
             window.location = '/';
+        } else if (r.status >= 500) {
+            errorHandler(r);
         }
     };
 };

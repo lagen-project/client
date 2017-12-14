@@ -8,6 +8,7 @@ import FeatureModel from '../models/featureModel';
 import FeatureRunButton from '../blocks/featureRunButton';
 import FeatureSaveButton from '../blocks/featureSaveButton';
 import NetworkErrorHandler from '../handlers/networkErrorHandler';
+import Notification from '../blocks/notification';
 import PlusButton from '../blocks/plusButton';
 import ProjectModel from '../models/projectModel';
 import ResultsButton from '../blocks/resultsButton';
@@ -24,7 +25,8 @@ export default class FeaturePage extends React.Component {
             running: false,
             results: null,
             project: '',
-            projectSteps: []
+            projectSteps: [],
+            runError: null
         };
     }
 
@@ -76,6 +78,18 @@ export default class FeaturePage extends React.Component {
         this.setState({ feature });
     };
 
+    handleRunError = (r) => {
+        r.json().then(content => {
+            if (content && content.error === 'feature_run') {
+                this.setState({ runError: content.message });
+            }
+        });
+    };
+
+    handleRunErrorClose = () => {
+        this.setState({ runError: null });
+    };
+
     toggleMode = () => {
         this.setState({mode: this.state.mode === 'read' ? 'write' : 'read'});
     };
@@ -125,7 +139,10 @@ export default class FeaturePage extends React.Component {
             .run(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
             .then(results => {
                 this.setState({running: false, results});
-            }, NetworkErrorHandler.handle);
+            }, (r) => {
+                this.setState({ running: false });
+                NetworkErrorHandler.handle(r, this.handleRunError);
+            });
     };
 
     stopAnimation = () => {
@@ -152,6 +169,9 @@ export default class FeaturePage extends React.Component {
                 <FeatureSaveButton animate={this.state.animate} onClick={this.saveFeature} />
                 {this.state.feature.runnable ? <FeatureRunButton animate={this.state.running} onClick={this.runFeature} /> : null}
                 <ResultsButton onClick={this.handleResultsButtonClick} active={this.state.results !== null} />
+                {this.state.runError ? (
+                    <Notification type="error" message={this.state.runError} onClose={this.handleRunErrorClose} />
+                ) : null}
 
                 <Description value={this.state.feature.description} onChange={this.handleDescriptionChange} />
                 {this.state.feature.scenarios.map((scenario, id) => (

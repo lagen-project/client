@@ -1,0 +1,22 @@
+@import "../colors";
+
+.notification {
+    width: 100%;
+    padding: 15px;
+    position: relative;
+
+    .notification-close {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    &.notification--error {
+        background: @color_failure;
+        color: #A00;
+    }
+}

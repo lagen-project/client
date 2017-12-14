@@ -11,7 +11,7 @@ export default class Model {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
-        }).then(response => response.ok ? response.json() : Promise.reject(response.status));
+        }).then(response => response.ok ? response.json() : Promise.reject(response));
     }
 
     get(uri) {
