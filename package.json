@@ -4,8 +4,9 @@
   "description": "Lagen's client interface",
   "main": "src/index.js",
   "scripts": {
-    "copy-css": "cp node_modules/knacss/css/knacss.css web/ && cp node_modules/font-awesome/css/font-awesome.min.css web/ && cp node_modules/react-select/dist/react-select.css web/",
-    "setup": "npm run copy-css && cp -R node_modules/font-awesome/fonts web/ && browserify -t [ babelify ] src/index.js | uglifyjs > web/app.js && lessc style/index.less | uglifycss > web/app.css"
+    "css": "uglifycss node_modules/knacss/css/knacss.css node_modules/font-awesome/css/font-awesome.min.css node_modules/react-select/dist/react-select.css > web/app.css && lessc style/index.less | uglifycss >> web/app.css",
+    "fonts": "cp -R node_modules/font-awesome/fonts web/",
+    "setup": "npm run css && npm run fonts && browserify -t [ babelify ] src/index.js | uglifyjs > web/app.js"
   },
   "author": "Pierre Rolland",
   "license": "ISC",
