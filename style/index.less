@@ -4,9 +4,13 @@
 
 @import "blocks/breadcrumb";
 @import "blocks/closeButton";
+@import "blocks/confirm";
+@import "blocks/confirmButtonOk";
+@import "blocks/confirmButtonCancel";
 @import "blocks/description";
 @import "blocks/examples";
 @import "blocks/examplesCell";
+@import "blocks/featureDeleteButton";
 @import "blocks/featureModeButton";
 @import "blocks/featureRunButon";
 @import "blocks/featureSaveButton";
@@ -32,7 +36,12 @@
 @import "pages/indexPage";
 @import "pages/featurePage";
 @import "pages/loginPage";
+@import "pages/page";
 @import "pages/projectPage";
+
+html, body, #root, .container {
+  height: 100%;
+}
 
 body, h1, h2 {
   font-family: 'Dosis', 'sans-serif';

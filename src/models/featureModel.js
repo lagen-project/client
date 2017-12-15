@@ -21,6 +21,10 @@ export default new class FeatureModel extends RestModel {
         return this.get(`projects/${projectSlug}/${this.resourceName}/${featureSlug}`);
     }
 
+    trash(projectSlug, featureSlug) {
+        return this.del(`projects/${projectSlug}/${this.resourceName}/${featureSlug}`);
+    }
+
     run(projectSlug, featureSlug) {
         return this.get(`projects/${projectSlug}/${this.resourceName}/${featureSlug}/run`);
     }

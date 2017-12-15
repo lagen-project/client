@@ -1,8 +1,10 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import _ from 'lodash';
 
 import Breadcrumb from '../blocks/breadcrumb';
 import Description from '../blocks/description';
+import FeatureDeleteButton from '../blocks/featureDeleteButton';
 import FeatureModeButton from '../blocks/featureModeButton';
 import FeatureModel from '../models/featureModel';
 import FeatureRunButton from '../blocks/featureRunButton';
@@ -13,6 +15,7 @@ import PlusButton from '../blocks/plusButton';
 import ProjectModel from '../models/projectModel';
 import ResultsButton from '../blocks/resultsButton';
 import Scenario from '../blocks/scenario';
+import Confirm from "../blocks/confirm";
 
 export default class FeaturePage extends React.Component {
     constructor(props) {
@@ -26,7 +29,9 @@ export default class FeaturePage extends React.Component {
             results: null,
             project: '',
             projectSteps: [],
-            runError: null
+            runError: null,
+            confirmDelete: false,
+            redirectTo: null
         };
     }
 
@@ -102,6 +107,19 @@ export default class FeaturePage extends React.Component {
         }
     };
 
+    handleDeleteButtonClick = (e) => {
+        e.preventDefault();
+        this.setState({ confirmDelete: true });
+    };
+
+    handleDeleteOk = () => {
+        FeatureModel
+            .trash(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
+            .then(() => {
+                this.setState({ redirectTo: `/project/${this.props.match.params.projectSlug }`});
+            }, NetworkErrorHandler.handle)
+    };
+
     computeAvailableStepSentences = () => {
         if (!this.state.feature) {
             return [];
@@ -150,8 +168,17 @@ export default class FeaturePage extends React.Component {
     };
 
     render() {
+        if (this.state.redirectTo) {
+            return <Redirect to={this.state.redirectTo} />
+        }
+
         return this.state.feature === null ? null : (
-            <div className={`page featurePage featurePage--${this.state.mode}`}>
+            <div className={`page featurePage featurePage--${this.state.mode}${this.state.confirmDelete ? ' page--overlay' : ''}`}>
+                {this.state.confirmDelete ? <Confirm
+                    question="Are you sure you want to delete this feature ?"
+                    onOk={this.handleDeleteOk}
+                    onCancel={() => { this.setState({ confirmDelete: false }); }}
+                /> : null}
                 <h1>{`Feature "${this.state.feature.name}"`}</h1>
 
                 <Breadcrumb routes={[
@@ -169,6 +196,7 @@ export default class FeaturePage extends React.Component {
                 <FeatureSaveButton animate={this.state.animate} onClick={this.saveFeature} />
                 {this.state.feature.runnable ? <FeatureRunButton animate={this.state.running} onClick={this.runFeature} /> : null}
                 <ResultsButton onClick={this.handleResultsButtonClick} active={this.state.results !== null} />
+                <FeatureDeleteButton onClick={this.handleDeleteButtonClick} />
                 {this.state.runError ? (
                     <Notification type="error" message={this.state.runError} onClose={this.handleRunErrorClose} />
                 ) : null}

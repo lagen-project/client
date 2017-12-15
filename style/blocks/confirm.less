@@ -1,0 +1,29 @@
+.confirm {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+
+    .confirm-center {
+        display: inline-block;
+        background: #CCC;
+        text-align: center;
+        padding: 20px;
+
+        .confirm-actions {
+            width: 75%;
+            margin: 25px auto;
+            display: flex;
+
+            .confirm-blank {
+                flex: auto;
+            }
+        }
+    }
+}
