@@ -13,7 +13,8 @@ export default class Model {
             }
         }).then(response => response.ok ?
             (response.status !== 204 ? response.json() : Promise.resolve()) :
-            Promise.reject(response));
+            Promise.reject(response)
+        );
     }
 
     get(uri) {
