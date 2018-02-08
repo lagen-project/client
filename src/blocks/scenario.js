@@ -47,6 +47,14 @@ export default class Scenario extends React.Component {
         }
     };
 
+    handleDragStart = () => {
+        this.props.onDragStart(this.props.id);
+    };
+
+    handleDragOver = () => {
+        this.props.onDragOver(this.props.id);
+    };
+
     handleStepChange = (e) => {
         let scenario = this.state.scenario;
 
@@ -104,7 +112,13 @@ export default class Scenario extends React.Component {
 
     render() {
         return (
-            <div className={`scenario scenario--${this.state.scenario.type}`}>
+            <div
+                className={`scenario scenario--${this.state.scenario.type} ${this.props.dragging ? 'scenario--dragging' : ''}`}
+                draggable={this.state.scenario.type !== 'background'}
+                onDragStart={this.handleDragStart}
+                onDragOver={this.handleDragOver}
+                onDragEnd={this.props.onDragEnd}
+            >
                 {this.props.backgroundable === true && this.props.featureMode === 'write' ? (
                     <ScenarioTypeButton onClick={this.switchType} />
                 ) : null}

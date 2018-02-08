@@ -31,7 +31,8 @@ export default class FeaturePage extends React.Component {
             projectSteps: [],
             runError: null,
             confirmDelete: false,
-            redirectTo: null
+            redirectTo: null,
+            draggingScenario: null
         };
     }
 
@@ -81,6 +82,32 @@ export default class FeaturePage extends React.Component {
         feature.scenarios.splice(scenarioId, 1);
 
         this.setState({ feature });
+    };
+
+    handleScenarioDragStart = (scenarioId) => {
+        if (this.state.feature.scenarios[scenarioId].type !== 'background') {
+            this.setState({
+                draggingScenario: scenarioId
+            });
+        }
+    };
+
+    handleScenarioDragOver = (scenarioId) => {
+        if (this.state.draggingScenario) {
+            let feature = this.state.feature;
+            const scenario = feature.scenarios[this.state.draggingScenario];
+
+            if (feature.scenarios[scenarioId].type !== 'background') {
+                feature.scenarios.splice(this.state.draggingScenario, 1);
+                feature.scenarios.splice(scenarioId, 0, scenario);
+
+                this.setState({feature, draggingScenario: scenarioId});
+            }
+        }
+    };
+
+    handleScenarioDragEnd = () => {
+        this.setState({ draggingScenario: null });
     };
 
     handleRunError = (r) => {
@@ -212,6 +239,10 @@ export default class FeaturePage extends React.Component {
                         backgroundable={id === 0}
                         featureMode={this.state.mode}
                         result={this.state.results ? this.state.results[id] : null}
+                        onDragStart={this.handleScenarioDragStart}
+                        onDragOver={this.handleScenarioDragOver}
+                        onDragEnd={this.handleScenarioDragEnd}
+                        dragging={this.state.draggingScenario === id}
                     />
                 ))}
                 {this.state.mode === 'write' ? (
