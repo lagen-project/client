@@ -87,7 +87,22 @@ export default class Step extends React.Component {
         this.props.onClose(this.props.id);
     };
 
-    resolveStepClass = () => {
+    handleDragStart = (e) => {
+        e.stopPropagation();
+        this.props.onDragStart(this.props.scenarioId, this.props.id);
+    };
+
+    handleDragOver = (e) => {
+        e.stopPropagation();
+        this.props.onDragOver(this.props.scenarioId, this.props.id);
+    };
+
+    handleDragEnd = (e) => {
+        e.stopPropagation();
+        this.props.onDragEnd(this.props.scenarioId);
+    };
+
+    resolveStepResultClass = () => {
         if (!this.props.result) {
             return '';
         }
@@ -108,7 +123,13 @@ export default class Step extends React.Component {
 
     render() {
         return (
-            <div className={`step ${this.resolveStepClass()}`}>
+            <div
+                className={`step ${this.resolveStepResultClass()} ${this.props.dragging ? 'step--dragging' : ''}`}
+                draggable={true}
+                onDragStart={this.handleDragStart}
+                onDragOver={this.handleDragOver}
+                onDragEnd={this.handleDragEnd}
+            >
                 {this.props.featureMode === 'write' ? (
                     <CloseButton onClick={this.handleClose} />
                 ) : null}

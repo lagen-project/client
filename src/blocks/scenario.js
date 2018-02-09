@@ -12,7 +12,8 @@ export default class Scenario extends React.Component {
 
         this.state = {
             scenario: this.props.scenario,
-            mode: this.props.scenario.name ? 'read' : 'write'
+            mode: this.props.scenario.name ? 'read' : 'write',
+            draggingStep: null
         };
     }
 
@@ -63,6 +64,42 @@ export default class Scenario extends React.Component {
             scenario,
             key: this.props.id
         });
+    };
+
+    handleStepDragStart = (scenarioId, stepId) => {
+        this.setState({
+            draggingStep: {
+                scenarioId: scenarioId,
+                stepId: stepId
+            }
+        });
+    };
+
+    handleStepDragOver = (scenarioId, stepId) => {
+        if (this.state.draggingStep && this.state.draggingStep.scenarioId === this.props.id) {
+            let scenario = this.state.scenario;
+            const step = this.state.scenario.steps[this.state.draggingStep.stepId];
+
+            this.state.scenario.steps.splice(this.state.draggingStep.stepId, 1);
+            this.state.scenario.steps.splice(stepId, 0, step);
+
+            this.setState({
+                draggingStep: {
+                    scenarioId: scenarioId,
+                    stepId: stepId
+                }
+            });
+            this.props.onChange({
+                scenario,
+                key: this.props.id
+            });
+        }
+    };
+
+    handleStepDragEnd = (scenarioId) => {
+        if (scenarioId === this.props.id) {
+            this.setState({ draggingStep: null });
+        }
     };
 
     handleNameChange = (e) => {
@@ -147,10 +184,19 @@ export default class Scenario extends React.Component {
                         step={step}
                         key={id}
                         id={id}
+                        scenarioId={this.props.id}
                         onChange={this.handleStepChange}
                         onClose={this.handleStepClose}
                         featureMode={this.props.featureMode}
                         result={this.props.result && this.state.scenario.examples.length === 0 ? this.props.result[id] : null}
+                        onDragStart={this.handleStepDragStart}
+                        onDragOver={this.handleStepDragOver}
+                        onDragEnd={this.handleStepDragEnd}
+                        dragging={
+                            this.state.draggingStep &&
+                            this.state.draggingStep.scenarioId === this.props.id &&
+                            this.state.draggingStep.stepId === id
+                        }
                     />
                 ))}
                 {this.props.featureMode === 'write' ? (
