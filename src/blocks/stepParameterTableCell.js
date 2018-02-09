@@ -5,8 +5,7 @@ export default class StepParameterTableCell extends React.Component {
         super(props);
 
         this.state = {
-            value: this.props.value,
-            mode: 'read'
+            value: this.props.value
         };
     }
 
@@ -15,18 +14,6 @@ export default class StepParameterTableCell extends React.Component {
             this.setState({ value: nextProps.value });
         }
     }
-
-    switchToRead = () => {
-        if (this.props.featureMode === 'write') {
-            this.setState({mode: 'read'});
-        }
-    };
-
-    switchToWrite = () => {
-        if (this.props.featureMode === 'write') {
-            this.setState({mode: 'write'});
-        }
-    };
 
     handleValueChange = (e) => {
         this.setState({ value: e.target.value });
@@ -37,13 +24,34 @@ export default class StepParameterTableCell extends React.Component {
         });
     };
 
+    handleKeyDown = (e) => {
+        if (e.keyCode === 9) { // if tab pressed
+            e.preventDefault();
+            this.props.onTabPressed(this.props.row, this.props.column);
+        }
+    };
+
+    switchToWrite = () => {
+        this.props.onSwitchToWrite(this.props.row, this.props.column);
+    };
+
     render() {
         return (
-            <td onClick={this.switchToWrite} onBlur={this.switchToRead} className={`stepParameterTableCell stepParameterTableCell--${this.state.mode}Mode`}>
-                {this.state.mode === 'read' || this.props.featureMode === 'read' ? (
+            <td
+                onClick={this.switchToWrite}
+                onBlur={this.props.onSwitchToRead}
+                className={`stepParameterTableCell stepParameterTableCell--${this.props.mode}Mode`}
+            >
+                {this.props.mode === 'read' || this.props.featureMode === 'read' ? (
                     this.state.value ? this.state.value : <span className="stepParameterTableCell-placeholder">-</span>
                 ) : (
-                    <input type="text" value={this.state.value} onChange={this.handleValueChange} autoFocus={true} />
+                    <input
+                        type="text"
+                        value={this.state.value}
+                        onChange={this.handleValueChange}
+                        autoFocus={true}
+                        onKeyDown={this.handleKeyDown}
+                    />
                 )}
             </td>
         );

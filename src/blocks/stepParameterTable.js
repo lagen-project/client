@@ -9,7 +9,8 @@ export default class StepParameterTable extends React.Component {
         super(props);
 
         this.state = {
-            parameter: this.props.parameter
+            parameter: this.props.parameter,
+            writingCell: null
         };
     }
 
@@ -70,6 +71,39 @@ export default class StepParameterTable extends React.Component {
         this.props.onChange(parameterValue);
     };
 
+    handleCellSwitchToWrite = (row, column) => {
+        this.setState({
+            writingCell: {
+                row,
+                column
+            }
+        });
+    };
+
+    handleCellSwitchToRead = () => {
+        this.setState({ writingCell: null });
+    };
+
+    handleCellTabPressed = (row, column) => {
+        if (column < this.state.parameter.value[row].length - 1) {
+            this.setState({
+                writingCell: {
+                    row,
+                    column: (column + 1)
+                }
+            })
+        } else if (row < this.state.parameter.value.length - 1) {
+            this.setState({
+                writingCell: {
+                    row: row + 1,
+                    column: 0
+                }
+            })
+        } else {
+            this.setState({ writingCell: null });
+        }
+    };
+
     render() {
         const nbRows = this.state.parameter.value.length;
         const nbColumns = this.state.parameter.value[0].length;
@@ -106,9 +140,19 @@ export default class StepParameterTable extends React.Component {
                                             value={cell}
                                             row={rowId}
                                             column={columnId}
+                                            mode={
+                                                this.state.writingCell &&
+                                                this.state.writingCell.row === rowId &&
+                                                this.state.writingCell.column === columnId ?
+                                                    'write' :
+                                                    'read'
+                                            }
                                             onChange={this.handleCellChange}
                                             onDeleteColumn={this.handleColumnDelete}
                                             onDeleteRow={this.handleRowDelete}
+                                            onSwitchToRead={this.handleCellSwitchToRead}
+                                            onSwitchToWrite={this.handleCellSwitchToWrite}
+                                            onTabPressed={this.handleCellTabPressed}
                                             featureMode={this.props.featureMode}
                                         />
                                     ))}
