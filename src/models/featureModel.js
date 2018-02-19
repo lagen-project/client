@@ -28,4 +28,8 @@ export default new class FeatureModel extends RestModel {
     run(projectSlug, featureSlug) {
         return this.get(`projects/${projectSlug}/${this.resourceName}/${featureSlug}/run`);
     }
+
+    lastResult(projectSlug, featureSlug) {
+        return this.get(`projects/${projectSlug}/${this.resourceName}/${featureSlug}/last-result`);
+    }
 };

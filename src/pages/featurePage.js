@@ -23,9 +23,11 @@ export default class FeaturePage extends React.Component {
 
         this.state = {
             feature: null,
+            savedFeature: null,
             mode: 'read',
             animate: null,
             running: false,
+            activeResults: false,
             results: null,
             project: '',
             projectSteps: [],
@@ -39,7 +41,7 @@ export default class FeaturePage extends React.Component {
     componentWillMount() {
         FeatureModel
             .read(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
-            .then(feature => this.setState({ feature }), NetworkErrorHandler.handle);
+            .then(feature => this.setState({ feature, savedFeature: JSON.stringify(feature) }), NetworkErrorHandler.handle);
         ProjectModel
             .read(this.props.match.params.projectSlug)
             .then(project => { this.setState({ project }); }, NetworkErrorHandler.handle);
@@ -129,8 +131,14 @@ export default class FeaturePage extends React.Component {
     handleResultsButtonClick = (e) => {
         e.preventDefault();
 
-        if (this.state.results) {
-            this.setState({ results: null });
+        if (this.state.results === null) {
+            FeatureModel
+                .lastResult(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
+                .then(results => {
+                    this.setState({ results, activeResults: !!results && !!results.length });
+                }, NetworkErrorHandler.handle)
+        } else {
+            this.setState({ activeResults: !this.state.activeResults });
         }
     };
 
@@ -172,8 +180,8 @@ export default class FeaturePage extends React.Component {
                 this.state.feature
             )
             .then(() => {
-                this.setState({ animate: 'success' });
-                setTimeout(this.stopAnimation, 2000);
+                this.setState({ animate: 'success', savedFeature: JSON.stringify(this.state.feature) });
+                setTimeout(() => { this.setState({ animate: null }); }, 2000);
             }, NetworkErrorHandler.handle)
         ;
     };
@@ -183,21 +191,23 @@ export default class FeaturePage extends React.Component {
         FeatureModel
             .run(this.props.match.params.projectSlug, this.props.match.params.featureSlug)
             .then(results => {
-                this.setState({running: false, results});
+                this.setState({running: false, results, activeResults: true});
             }, (r) => {
                 this.setState({ running: false });
                 NetworkErrorHandler.handle(r, this.handleRunError);
             });
     };
 
-    stopAnimation = () => {
-        this.setState({ animate: null })
+    featureSynced = () => {
+        return JSON.stringify(this.state.feature) === this.state.savedFeature;
     };
 
     render() {
         if (this.state.redirectTo) {
             return <Redirect to={this.state.redirectTo} />
         }
+
+        const featureSynced = this.featureSynced();
 
         return this.state.feature === null ? null : (
             <div className={`page featurePage featurePage--${this.state.mode}${this.state.confirmDelete ? ' page--overlay' : ''}`}>
@@ -221,8 +231,15 @@ export default class FeaturePage extends React.Component {
 
                 <FeatureModeButton mode={this.state.mode} onClick={this.toggleMode} />
                 <FeatureSaveButton animate={this.state.animate} onClick={this.saveFeature} />
-                {this.state.feature.runnable ? <FeatureRunButton animate={this.state.running} onClick={this.runFeature} /> : null}
-                <ResultsButton onClick={this.handleResultsButtonClick} active={this.state.results !== null} />
+                {this.state.feature.runnable && featureSynced ?
+                    <FeatureRunButton animate={this.state.running} onClick={this.runFeature} /> : null
+                }
+                {featureSynced ?
+                    <ResultsButton
+                        onClick={this.handleResultsButtonClick}
+                        active={this.state.activeResults && this.state.results}
+                    /> : null
+                }
                 <FeatureDeleteButton onClick={this.handleDeleteButtonClick} />
                 {this.state.runError ? (
                     <Notification type="error" message={this.state.runError} onClose={this.handleRunErrorClose} />
@@ -238,7 +255,7 @@ export default class FeaturePage extends React.Component {
                         onClose={this.handleScenarioClose}
                         backgroundable={id === 0}
                         featureMode={this.state.mode}
-                        result={this.state.results ? this.state.results[id] : null}
+                        result={featureSynced && this.state.results && this.state.activeResults ? this.state.results[id] : null}
                         onDragStart={this.handleScenarioDragStart}
                         onDragOver={this.handleScenarioDragOver}
                         onDragEnd={this.handleScenarioDragEnd}
