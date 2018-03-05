@@ -40,14 +40,26 @@ export default class Examples extends React.Component {
 
         return _.uniq(_.flatten(steps.map(step => {
             let matches = [];
+            let match;
 
-            while (true) {
-                const match = re.exec(step.sentence);
-
-                if (!match) {
-                    break;
-                }
+            while (match = re.exec(step.sentence)) {
                 matches.push(match[1]);
+            }
+
+            if (step.parameter) {
+                switch (step.parameter.type) {
+                    case 'string':
+                        while (match = re.exec(step.parameter.value)) {
+                            matches.push(match[1]);
+                        }
+                        break;
+                    case 'table':
+                        const stringified = JSON.stringify(step.parameter.value);
+                        while (match = re.exec(stringified)) {
+                            matches.push(match[1]);
+                        }
+                        break;
+                }
             }
 
             return matches;
