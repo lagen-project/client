@@ -1,21 +1,26 @@
 import _ from 'lodash';
 import React from 'react';
+import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import Breadcrumb from '../blocks/breadcrumb';
+import DeleteButton from '../blocks/deleteButton';
 import FeatureModel from '../models/featureModel';
 import NetworkErrorHandler from "../handlers/networkErrorHandler";
 import NewFeature from '../blocks/newFeature';
 import ProjectGitRepository from '../blocks/projectGitRepository';
 import ProjectInstall from '../blocks/projectInstall';
 import ProjectModel from '../models/projectModel';
+import Confirm from "../blocks/confirm";
 
 export default class ProjectPage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            project: null
+            project: null,
+            confirmDelete: false,
+            redirectTo: null
         };
     }
 
@@ -35,15 +40,39 @@ export default class ProjectPage extends React.Component {
         }).then(() => this.readProject(), NetworkErrorHandler.handle);
     };
 
+    handleDeleteButtonClick = (e) => {
+        e.preventDefault();
+        this.setState({ confirmDelete: true });
+    };
+
+    handleDeleteOk = () => {
+        ProjectModel
+            .remove(this.props.match.params.projectSlug)
+            .then(() => {
+                this.setState({ redirectTo: '/'});
+            }, NetworkErrorHandler.handle)
+    };
+
     render() {
+        if (this.state.redirectTo) {
+            return <Redirect to={this.state.redirectTo} />
+        }
+
         return this.state.project === null ? null : (
             <div className="page projectPage">
+                {this.state.confirmDelete ? <Confirm
+                    question="Are you sure you want to delete the project ? This action is irreversible"
+                    onOk={this.handleDeleteOk}
+                    onCancel={() => { this.setState({ confirmDelete: false }); }}/> : null
+                }
                 <h1>{this.state.project.name}</h1>
 
                 <Breadcrumb routes={[
                     {label: 'Projects', link: '/'},
                     {label: this.state.project ? this.state.project.name : ''}
                 ]}/>
+
+                <DeleteButton onClick={this.handleDeleteButtonClick} />
 
                 <div className="projectPage-intro">
                     <ProjectGitRepository
