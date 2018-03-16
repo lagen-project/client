@@ -3,8 +3,9 @@ import { Redirect } from 'react-router';
 import _ from 'lodash';
 
 import Breadcrumb from '../blocks/breadcrumb';
+import Confirm from "../blocks/confirm";
+import DeleteButton from '../blocks/deleteButton';
 import Description from '../blocks/description';
-import FeatureDeleteButton from '../blocks/featureDeleteButton';
 import FeatureModeButton from '../blocks/featureModeButton';
 import FeatureModel from '../models/featureModel';
 import FeatureRunButton from '../blocks/featureRunButton';
@@ -15,7 +16,6 @@ import PlusButton from '../blocks/plusButton';
 import ProjectModel from '../models/projectModel';
 import ResultsButton from '../blocks/resultsButton';
 import Scenario from '../blocks/scenario';
-import Confirm from "../blocks/confirm";
 
 export default class FeaturePage extends React.Component {
     constructor(props) {
@@ -240,7 +240,7 @@ export default class FeaturePage extends React.Component {
                         active={this.state.activeResults && this.state.results}
                     /> : null
                 }
-                <FeatureDeleteButton onClick={this.handleDeleteButtonClick} />
+                <DeleteButton onClick={this.handleDeleteButtonClick} />
                 {this.state.runError ? (
                     <Notification type="error" message={this.state.runError} onClose={this.handleRunErrorClose} />
                 ) : null}
